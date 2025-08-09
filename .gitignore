@@ -1,0 +1,74 @@
+﻿# ====================
+# Unity 核心忽略规则
+# ====================
+Client/[Ll]ibrary/
+Client/[Tt]emp/
+Client/[Oo]bj/
+Client/[Bb]uild/
+Client/[Bb]uilds/
+Client/[Ll]ogs/
+
+# ====================
+# 并行目录忽略规则
+# ====================
+# 忽略与Client同级的目录
+Server/                 # 后端服务目录
+Tools/                  # 开发工具目录
+Docs/                   # 文档目录
+Config/                 # 配置目录
+Vendor/                 # 第三方依赖
+
+# ====================
+# 自动生成文件
+# ====================
+Client/*.log
+Client/*.suo
+Client/*.userprefs
+Client/*.pidb
+Client/*.pdb
+Client/*.bak
+
+# ====================
+# 资源元数据
+# ====================
+Client/**/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*
+Client/**/[Aa]ssets/[Ss]treamingAssets/aa/*
+Client/*.manifest
+Client/*.unitypackage
+Client/*.orig
+
+# ====================
+# 项目配置与缓存
+# ====================
+Client/.vs/
+Client/.gradle/
+Client/.idea/
+Client/[Dd]erivedData/
+Client/[Ee]xported[Oo]bj/
+Client/[Pp]rojectSettings/InputManager.asset
+Client/[Pp]rojectSettings/ProjectVersion.txt
+
+# ====================
+# 平台特定文件
+# ====================
+Client/[Aa]ssets/[Aa]ssetStoreTools*
+Client/[Pp]ackages/
+Client/sign.settings
+Client/[Bb]in/
+Client/sysinfo.txt
+
+# ====================
+# 特殊文件规则
+# ====================
+Client/[Aa]ssets/[Pp]lugins/**/*.meta
+Client/[Aa]ssets/[Tt]ext[Mm]esh [Pp]ro/*.asset
+Client/**/Assets/Scenes.meta
+
+# ===== 必须保留的文件 =====
+!Client/[Pp]rojectSettings/PackagesSettings.json
+!Client/[Pp]ackages/manifest.json
+!Client/[Aa]ssets/**/*.unity
+!Client/[Aa]ssets/**/*.prefab
+!Client/[Aa]ssets/**/*.mat
+!Client/[Aa]ssets/**/*.cs          # 脚本文件
+!Client/[Pp]rojectSettings/*.asset # 项目设置（InputManager除外）
