@@ -12,6 +12,10 @@ public class GameMod : Singleton<GameMod>
     {
         playerObj = ResPlayer();
         GenerateLevel();
+
+        GameObject BullePool = ResourceManager.LoadResSync<GameObject>("ArtProp_BullePool");
+        Instantiate(BullePool);
+
     }
     
     private GameObject ResPlayer()

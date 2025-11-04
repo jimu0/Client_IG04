@@ -8,51 +8,59 @@ using Random = UnityEngine.Random;
 
 public class BulleFlowEffect : MonoBehaviour
 {
-    public bool Switch = true;
+    public Vector3 posStart;
+    public Vector3 posEnd;
+    
+    public int id;
     public MeshRenderer meshrender;
-    public Material mat;
+    //public Material mat;
     
     private MaterialPropertyBlock propBlock;
-    private int _StretchValueID;
-    private int _ElapsedTimeID;
-    private int _EmissionID;
+    private int _StretchValueID= Shader.PropertyToID("_StretchValue");
+    private int _ElapsedTimeID = Shader.PropertyToID("_ElapsedTime");
+    private int _EmissionID = Shader.PropertyToID("_Emission");
     
     private void Awake()
     {
-
+        //meshrender = gameObject.GetComponent<MeshRenderer>();
+        //mat = meshrender.sharedMaterial;
     }
 
     void Start()
     {
-        propBlock = new MaterialPropertyBlock();
-        meshrender = gameObject.GetComponent<MeshRenderer>();
-        mat = meshrender.sharedMaterial;
-        // 获取 Shader 变量的 ID（提高性能）
-        //bulletFlowEffectID = Shader.PropertyToID("BulletFlowEffect");
-        _StretchValueID = Shader.PropertyToID("_StretchValue");
-        _ElapsedTimeID = Shader.PropertyToID("_ElapsedTime");
-        _EmissionID = Shader.PropertyToID("_Emission");
-        SetBulleFlowEffect(transform.localScale.x, Time.time, RandomColor());
+        // DrawTrajectoryBullet(posStart,posEnd);
+        //
+        // SetBulleFlowEffect(transform.localScale.x, Time.time, RandomColor());
 
         
     }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        if (Keyboard.current.cKey.wasPressedThisFrame)
+        if (Keyboard.current.zKey.wasPressedThisFrame)
         {
-            Debug.Log($"key:C, mat={mat.shader.name}");
-            if(!Switch)return;//测试代码，这里应该判断子弹位移id，来触发这个单一子弹效果
+            //Debug.Log($"key:C, mat={mat.shader.name}");
+            if(id!=1)return;//测试代码，这里应该判断子弹位移id，来触发这个单一子弹效果
             //mat.SetFloat("_FlowSpeed",1);
+            DrawTrajectoryBullet(posStart,posEnd);
+            
             SetBulleFlowEffect(transform.localScale.x, Time.time, RandomColor());
         }
     }
     
+    void DrawTrajectoryBullet(Vector3 posA,Vector3 posB)
+    {
+        Vector3 dir = (posB - posA).normalized;
+        Vector3 right = Camera.main ? Vector3.Cross(dir, (Camera.main.transform.position - posA)).normalized : Vector3.right;
+        if (right.sqrMagnitude < 1e-4f) right = Vector3.Cross(dir, Vector3.up);
+        transform.SetPositionAndRotation(posA, Quaternion.LookRotation(dir, Vector3.Cross(right, dir)) * Quaternion.Euler(0, -90, 0));
+        transform.localScale = new Vector3(Vector3.Distance(posA, posB), 1, 1);
+    }
+    
     void SetBulleFlowEffect(float stretchValue, float elapsedTime, Color emission)
     {
+        propBlock ??= new MaterialPropertyBlock();
         meshrender.GetPropertyBlock(propBlock);  // 获取当前的 PropertyBlock
-
         // 设置实例化参数
         propBlock.SetFloat(_StretchValueID, stretchValue);
         propBlock.SetFloat(_ElapsedTimeID, elapsedTime);

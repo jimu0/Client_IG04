@@ -202,10 +202,13 @@ namespace SUGame.Runtime.Scripts.InputControl
 
         private void Fire()
         {
-            
+            //ReportPawnDamage(pawnId,1,14,0);
             Debug.Log("DaDaDaDaDa!");
             //LookAtTarget(aimWorldPos); 
-            DrawTrajectory();
+            //DrawTrajectoryBullet(pawnState,pawnAimWorldPos);
+            BullePool.BullProperty gObj = BullePool.bullPool.Get();
+            BullePool.Set(gObj, 1, pawnPos, pawnAimWorldPos);
+            //DrawTrajectory();
             fireLineRateTimerID = TimerManager.Register(0.1f, BulletFly, null, false, true, null);
             
         }
@@ -269,7 +272,7 @@ namespace SUGame.Runtime.Scripts.InputControl
             // }
 
             
-            ReportPawnPRL();//发送位置
+            ReportPawnSPRL(pawnId,pawnState,pawnPos,pawnRotation,pawnAimWorldPos);//发送位置
             
             // if (show)
             // {

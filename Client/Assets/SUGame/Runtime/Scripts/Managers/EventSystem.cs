@@ -15,6 +15,7 @@ public static class GameEvent
     public static readonly string AUDIO_VOLUME_CHANGED = "AUDIO_VOLUME_CHANGED";
     
     public static readonly string PAWN_POSITION_REPORT = "PAWN_POSITION_REPORT";
+    public static readonly string PAWN_DAMAGE_REPORT = "PAWN_DAMAGE_REPORT";
 }
 
 /// <summary>

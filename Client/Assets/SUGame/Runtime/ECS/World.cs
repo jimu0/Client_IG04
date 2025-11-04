@@ -102,7 +102,7 @@ public class World : MonoBehaviour
         //var tables = new cfg.Tables(file => JSON.Parse(File.ReadAllText($"{gameConfDir}/{file}.json")));
         //var tables = new cfg.Tables(file => return new ByteBuf(File.ReadAllBytes($"{gameConfDir}/A.bytes")));
         //Instantiate(tables);
-        foreach (PawnCfg tableData in tables.PawnTable.DataList)
+        foreach (GunCfg tableData in tables.GunTable.DataList)
         {
             Debug.Log(tableData.Name);
         }
@@ -141,7 +141,7 @@ public class World : MonoBehaviour
                 pawnsSprl[pawnId].pawnId = 0;
                 return;
             }
-            pawnsSprl[pawnId].pawnState = pawnState; //1值、2值 来区分玩家还是机器人
+            pawnsSprl[pawnId].pawnState = pawnState;
             pawnsSprl[pawnId].pawnPos = pawnPos;
             pawnsSprl[pawnId].pawnRotation = pawnRotation;
             pawnsSprl[pawnId].pawnAimWorldPos = pawnAimWorldPos;

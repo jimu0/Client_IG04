@@ -17,6 +17,8 @@ public partial class Tables
     public ExampleTable ExampleTable {get; }
     public PawnTable PawnTable {get; }
     public StoryTable StoryTable {get; }
+    public MapDataTable MapDataTable {get; }
+    public GunTable GunTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -24,6 +26,8 @@ public partial class Tables
         ExampleTable = new ExampleTable(loader("exampletable"));
         PawnTable = new PawnTable(loader("pawntable"));
         StoryTable = new StoryTable(loader("storytable"));
+        MapDataTable = new MapDataTable(loader("mapdatatable"));
+        GunTable = new GunTable(loader("guntable"));
         ResolveRef();
     }
     
@@ -33,6 +37,8 @@ public partial class Tables
         ExampleTable.ResolveRef(this);
         PawnTable.ResolveRef(this);
         StoryTable.ResolveRef(this);
+        MapDataTable.ResolveRef(this);
+        GunTable.ResolveRef(this);
     }
 }
 
