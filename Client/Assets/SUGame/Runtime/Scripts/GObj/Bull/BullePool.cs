@@ -17,7 +17,7 @@ public class BullePool : MonoBehaviour
         public MaterialPropertyBlock propBlock;
         public int id;
         public float lifeCycle = 0.1f;
-        public float speed = 10;
+        public float speed = 50;//(m/s)
         public int timerID = 0;
         public Vector3 posStart = Vector3.back;
         public Vector3 posEnd = Vector3.back;
@@ -51,7 +51,7 @@ public class BullePool : MonoBehaviour
         gObj.posStart = posStart;
         gObj.posEnd = posEnd;
         gObj.distance = Vector3.Distance(posStart, posEnd);
-        gObj.lifeCycle = (0.0667f * gObj.distance / gObj.speed) / Time.timeScale;//16纹理尺寸-1为了走完尾部
+        gObj.lifeCycle = gObj.distance/(gObj.speed*Time.timeScale);//0.0667f * gObj.distance / (gObj.speed*
         gObj.timerID = TimerManager.Register(gObj.lifeCycle, () => { bullPool.Release(gObj);}, null, false, true);
         DrawTrajectoryBullet(gObj);
         SetBulleFlowEffect(gObj);
@@ -70,34 +70,34 @@ public class BullePool : MonoBehaviour
     }
     void OnGet(BullProperty gObj)
     {
-        Debug.Log("pool:获取");
+        //Debug.Log("pool:获取");
         gObj.obj.SetActive(true);
     }
     void OnRelease(BullProperty gObj)
     {
-        Debug.Log("pool:释放");
+        //Debug.Log("pool:释放");
         gObj.obj.SetActive(false);
             
     }
     void OnDestory(BullProperty gObj)
     {
-        Debug.Log("pool:销毁");
+        //Debug.Log("pool:销毁");
     }
     
     
     void Update()
     {
-        if (Keyboard.current.vKey.wasPressedThisFrame)
-        {
-            bullPool.Release(bullObjas[0]);
-
-        }
-
-        if (Keyboard.current.cKey.wasPressedThisFrame)
-        {
-            BullProperty gObj = bullPool.Get();
-            Set(gObj, 1, Vector3.back, Vector3.right * 30);
-        }
+        // if (Keyboard.current.vKey.wasPressedThisFrame)
+        // {
+        //     bullPool.Release(bullObjas[0]);
+        //
+        // }
+        //
+        // if (Keyboard.current.cKey.wasPressedThisFrame)
+        // {
+        //     BullProperty gObj = bullPool.Get();
+        //     Set(gObj, 1, Vector3.back, Vector3.right * 30);
+        // }
     }
     // private IEnumerator SpawnOnNextFrameCoroutine()
     // {

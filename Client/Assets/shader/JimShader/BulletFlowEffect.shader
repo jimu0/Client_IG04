@@ -4,7 +4,7 @@ Shader "TDUShader/BulletFlowEffect"
     {
         _MainTex ("Base Texture (RGBA)", 2D) = "white" {}
         //_Emission ("Emission Color", Color) = (1, 1, 1, 1)
-        _FlowSpeed("Flow Speed",float) = 10
+        _FlowSpeed("Flow Speed",float) = 4
         _Light("Light",float) = 1
         _Cutoff ("Alpha Cutoff", Range(0, 1)) = 0.5
     }

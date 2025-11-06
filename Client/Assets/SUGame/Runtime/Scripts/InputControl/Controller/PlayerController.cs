@@ -149,7 +149,7 @@ namespace SUGame.Runtime.Scripts.InputControl
                 if (!aimlock)
                 {
                     // 获取角色当前正前方数米的位置
-                    Vector3 positionInFront = transform.position + actorTsf.forward * 0.1f;
+                    Vector3 positionInFront = transform.position + actorTsf.forward * 50f;
                     Vector3 screenPoint = mainCamera.WorldToScreenPoint(positionInFront);
                     //screenPoint.y = 1;
                     pointerRectTransform.anchoredPosition = screenPoint;// 准星图标设置到角色前方位置
@@ -203,11 +203,11 @@ namespace SUGame.Runtime.Scripts.InputControl
         private void Fire()
         {
             //ReportPawnDamage(pawnId,1,14,0);
-            Debug.Log("DaDaDaDaDa!");
+            //Debug.Log("DaDaDaDaDa!");
             //LookAtTarget(aimWorldPos); 
             //DrawTrajectoryBullet(pawnState,pawnAimWorldPos);
             BullePool.BullProperty gObj = BullePool.bullPool.Get();
-            BullePool.Set(gObj, 1, pawnPos, pawnAimWorldPos);
+            BullePool.Set(gObj, 1, pawnPos, transform.position + actorTsf.forward * 50f);
             //DrawTrajectory();
             fireLineRateTimerID = TimerManager.Register(0.1f, BulletFly, null, false, true, null);
             

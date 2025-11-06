@@ -96,7 +96,7 @@ public class EventSystem : Singleton<EventSystem>
             try
             {
                 _events[eventName]?.Invoke(data);
-                Debug.Log($"[EventSystem] 触发事件: {eventName}，数据类型: {data?.GetType()?.Name ?? "null"}");
+                //Debug.Log($"[EventSystem] 触发事件: {eventName}，数据类型: {data?.GetType()?.Name ?? "null"}");
             }
             catch (Exception e)
             {

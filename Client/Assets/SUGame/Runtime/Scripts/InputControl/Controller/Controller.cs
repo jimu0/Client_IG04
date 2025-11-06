@@ -12,11 +12,18 @@ namespace SUGame.Runtime.Scripts.InputControl
         public Quaternion pawnRotation; // 朝向
         public Vector3 pawnAimWorldPos; // 准星的世界位置
         public int targetPawnId;
+        public PawnSPRLReport report;
         
         public void ReportPawnSPRL(int id,int state,Vector3 pos,Quaternion rot,Vector3 aimPos)
         {
             // 上报当前位置到事件系统
-            var report = new PawnSPRLReport(id,state,pos,rot,aimPos);
+
+            report.pawnId = id;
+            report.pawnState = state;
+            report.pawnPos = pos;
+            report.pawnRotation=rot;
+            report.pawnAimWorldPos = aimPos;
+            //report = new PawnSPRLReport(id,state,pos,rot,aimPos);
             EventSystem.Instance.Trigger(GameEvent.PAWN_POSITION_REPORT, report);
         }
         public void ReportPawnDamage(int id,int targetId,float damage,int source)
