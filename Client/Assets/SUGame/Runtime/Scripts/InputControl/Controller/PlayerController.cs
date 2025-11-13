@@ -46,7 +46,8 @@ namespace SUGame.Runtime.Scripts.InputControl
         public bool show = false; // 是否显示
 
         public Vector3 playerPos; // 玩家位置（发射点）
-        public Vector3 targetPos; // 目标点（如敌人）
+        public Vector3? targetPos; // 目标点（如目标敌人的位置，如果有）
+        public Vector3? poi; // 子弹击中点(Point of impact的简称)
 
         public int firearmsType = 0;
         private bool fireTriggerState = false;
@@ -262,7 +263,7 @@ namespace SUGame.Runtime.Scripts.InputControl
             camRoot.transform.SetPositionAndRotation(actorTsf.position,Quaternion.identity);
             
             playerPos = transform.position;
-            targetPos = pawnAimWorldPos;//临时吧任何瞄准的位置都当做目标
+            poi = pawnAimWorldPos;//临时吧任何瞄准的位置都当做目标
             
             // float dis = Vector3.Distance(playerPos, targetPos)*0.02f;
             // cinemachineBrain.ActiveVirtualCamera.Follow.SetPositionAndRotation(cinemachineBrain.ActiveVirtualCamera.LookAt.position+new Vector3(0,22,-8)+new Vector3(0,22,-8)*dis,Quaternion.identity);
@@ -273,12 +274,13 @@ namespace SUGame.Runtime.Scripts.InputControl
 
             
             ReportPawnSPRL(pawnId,pawnState,pawnPos,pawnRotation,pawnAimWorldPos);//发送位置
-            
+
+            //Debug.Log(fireTriggerState ? "A" : "B");
             // if (show)
             // {
             //     DrawTrajectory();
             // }
-            
+
         }
         
         private void LookAtTarget(Vector3 lookAtPos)
@@ -290,27 +292,16 @@ namespace SUGame.Runtime.Scripts.InputControl
             pawnRotation = Quaternion.Lerp(actorTsf.rotation, toRotation, 100 * Time.deltaTime);
             actorTsf.rotation = pawnRotation;
         }
-        
-        void DrawTrajectory()
-        {
-            Vector3 start = playerPos;
-            start.y = 1;
-            // 两点直线
-            line.SetPosition(0, start);
-            line.SetPosition(1, targetPos);
-            show = true;
-            line.enabled = show;
-        }
-        
-        
+
+
         void BulletFly()
         {
-            show = false;
-            line.enabled = show;
+            //show = false;
+            //line.enabled = show;
             TimerManager.Cancel(fireLineRateTimerID);
-            
-            
+        
         }
+        
     }
 }
 
