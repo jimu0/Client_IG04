@@ -24,7 +24,8 @@ public class SplashController : MonoBehaviour
     private float splashStartTime; //用于判断最小启动时间是否已满足
     private bool isTriggered = true; // 用于监听是否已经触发过生成世界
     private Coroutine _initCoroutine;
-
+    
+    
     void Start()
     {
         splashStartTime = Time.time;
