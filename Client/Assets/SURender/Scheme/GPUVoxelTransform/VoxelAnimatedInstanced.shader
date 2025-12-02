@@ -38,14 +38,15 @@ Shader "Custom/VoxelAnimatedInstanced"
             
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(int, _InstanceID) // 单位编号
+                UNITY_DEFINE_INSTANCED_PROP(int, _SkinID) // 单位皮肤编号
                 UNITY_DEFINE_INSTANCED_PROP(int, _BoneID) // 单位每根骨骼的编号
                 UNITY_DEFINE_INSTANCED_PROP(float3, _MeshOffice) // 模型局部偏移
                 UNITY_DEFINE_INSTANCED_PROP(float3, _MeshSize) // 模型轴拉伸
-                UNITY_DEFINE_INSTANCED_PROP(float2, _MeshUVID) // 模型UVID(x行为骨骼纹理序列,y列为单位纹理列)
+                //UNITY_DEFINE_INSTANCED_PROP(float2, _MeshUVID) // 模型UVID(x行为骨骼纹理序列,y列为单位纹理列)
                 UNITY_DEFINE_INSTANCED_PROP(float4, _BaseColor) // 模型颜色
             UNITY_INSTANCING_BUFFER_END(Props)
 
-            static const int MaxBonesPerCharacter = 32;
+            static const int MaxBonesPerCharacter = 16;
 
             struct appdata
             {
@@ -68,10 +69,11 @@ Shader "Custom/VoxelAnimatedInstanced"
                 UNITY_SETUP_INSTANCE_ID(v);
 
                 int instanceID = UNITY_ACCESS_INSTANCED_PROP(Props, _InstanceID);
+                int skinID = UNITY_ACCESS_INSTANCED_PROP(Props, _SkinID);
                 int boneID = UNITY_ACCESS_INSTANCED_PROP(Props, _BoneID);
                 float3 meshOffice = UNITY_ACCESS_INSTANCED_PROP(Props, _MeshOffice);
                 float3 meshSize = UNITY_ACCESS_INSTANCED_PROP(Props, _MeshSize);
-                float2 meshUVID = UNITY_ACCESS_INSTANCED_PROP(Props, _MeshUVID);
+                //float2 meshUVID = UNITY_ACCESS_INSTANCED_PROP(Props, _MeshUVID);
                 // 先进行拉伸和位移
                 float3 scaledVertex = v.vertex * meshSize + meshOffice;
                 
@@ -89,7 +91,7 @@ Shader "Custom/VoxelAnimatedInstanced"
                 float2 texelSize = float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y);
                 float2 cellSizeUV = texelSize * 32;   // 一个 32×32 的格子的 UV 范围
 
-                float2 offsetUV = float2(boneID, instanceID)*cellSizeUV ;
+                float2 offsetUV = float2(boneID, skinID)*cellSizeUV ;
                 
 
                 o.uv = v.uv * cellSizeUV + offsetUV;
@@ -101,9 +103,7 @@ Shader "Custom/VoxelAnimatedInstanced"
 
             float4 frag(v2f i) : SV_Target
             {
-                // 采样
                 float4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-                // 用实例颜色乘以纹理颜色（alpha 可用于透明）
                 float4 outCol = tex * i.color;
                 return outCol;
             }

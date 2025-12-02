@@ -16,8 +16,8 @@ public class FPSDisplay : MonoBehaviour
 
     void Awake()
     {
-        QualitySettings.vSyncCount = 0;        // 关闭垂直同步
-        Application.targetFrameRate = -1;      // 不限制帧率
+        //QualitySettings.vSyncCount = 0;        // 关闭垂直同步
+        //Application.targetFrameRate = -1;      // 不限制帧率
     }
 
     void Start()

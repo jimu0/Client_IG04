@@ -128,8 +128,8 @@ QualitySettings:
     realtimeReflectionProbes: 1
     billboardsFaceCameraPosition: 1
     useLegacyDetailDistribution: 1
-    vSyncCount: 1
-    realtimeGICPUUsage: 25
+    vSyncCount: 0
+    realtimeGICPUUsage: 100
     lodBias: 2
     maximumLODLevel: 0
     enableLODCrossFade: 0
@@ -158,7 +158,7 @@ QualitySettings:
     excludedTargetPlatforms: []
   m_TextureMipmapLimitGroupNames: []
   m_PerPlatformDefaultQuality:
-    Android: 1
+    Android: 2
     CloudRendering: 2
     GameCoreScarlett: 2
     GameCoreXboxOne: 2
@@ -166,7 +166,7 @@ QualitySettings:
     Nintendo Switch: 1
     PS4: 2
     PS5: 2
-    Server: 0
+    Server: 2
     Stadia: 2
     Standalone: 2
     WebGL: 1

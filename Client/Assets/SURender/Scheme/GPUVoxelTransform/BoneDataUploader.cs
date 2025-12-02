@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -11,45 +12,96 @@ public class BoneDataUploader : MonoBehaviour
     ComputeBuffer boneBuffer;
 
     // 配置
-    public int MaxCharacters = 512; // 最大角色数
-    public int MaxBonesPerCharacter = 32; // 每个角色的最大骨骼数
+    private const int MaxCharacters = 512; // 最大角色 数
+    private const int MaxBonesPerCharacter = 16; // 每个角色的最大骨骼数
 
-    Matrix4x4[] boneMatrices;
+    private Matrix4x4[] boneMatrices;
+    
+    public float updateInterval = 0.0167f; //值为0.0333 约 30 FPS
+    private static readonly int BoneBuffer = Shader.PropertyToID("_BoneBuffer");
 
-    void Awake()
+    private void Awake()
     {
         Instance = this;
 
         boneMatrices = new Matrix4x4[MaxCharacters * MaxBonesPerCharacter];
         boneBuffer = new ComputeBuffer(boneMatrices.Length, sizeof(float) * 16);
 
-        Shader.SetGlobalBuffer("_BoneBuffer", boneBuffer);
+        Shader.SetGlobalBuffer(BoneBuffer, boneBuffer);
+    }
+
+    private void Start()
+    {
+        StartCoroutine(UpdateBoneDataRoutine());
+    }
+
+    private IEnumerator UpdateBoneDataRoutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(updateInterval);
+        
+        while (true)
+        {
+            UpdateBoneData();
+            yield return wait;
+        }
+        // ReSharper disable once IteratorNeverReturns
     }
 
     public static void RegisterCharacter(InstanceBinder binder)
     {
         Characters.Add(binder);
     }
-
-    void LateUpdate()
+    public static void DestroyCharacter(InstanceBinder binder)
     {
-        // 将所有角色骨骼塞进一个大数组，GPU 一次性吃完
-        foreach (var character in Characters)
+        Characters.Remove(binder);
+    }
+
+    // void LateUpdate()
+    // {
+    //     //UpdateBoneData();
+    // }
+
+    private void UpdateBoneData()
+    {
+        if (Characters == null || Characters.Count == 0) return;
+
+        foreach (InstanceBinder character in Characters)
         {
+            if (character == null || character.Bones == null) continue;
+            
             int baseIndex = character.InstanceID * MaxBonesPerCharacter;
 
             for (int i = 0; i < character.Bones.Length; i++)
             {
-                boneMatrices[baseIndex + i] = character.Bones[i].localToWorldMatrix;
+                Transform bone = character.Bones[i];
+                if (bone == null) continue;  // 防止 MissingReference
+                //if(bone.localToWorldMatrix==boneMatrices[baseIndex + i])continue;
+                boneMatrices[baseIndex + i] = bone.localToWorldMatrix;
             }
         }
 
-        // 一次性上传
         boneBuffer.SetData(boneMatrices);
     }
 
-    void OnDestroy()
+    public static void OnBindTransArray()
+    {
+        
+        InstanceBinder[] components = FindObjectsOfType<InstanceBinder>(true);
+        Debug.Log(components.Length);
+        Characters.Clear();
+        for (int index = 0; index < components.Length; index++)
+        {
+            InstanceBinder c = components[index];
+            c.InstanceID = index;
+            c.OnBindTransArray();
+            Characters.Add(c);
+        }
+    }
+
+    private void OnDestroy()
     {
         boneBuffer?.Release();
     }
+
+
 }

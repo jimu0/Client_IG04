@@ -4,7 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Renderer))]
 public class VoxelMeshRenderer : MonoBehaviour
 {
-    public int aId;
+    public int iId;
+    public int sId;
     public int bId;
     Renderer rend;
     //InstanceBinder binder;
@@ -24,7 +25,8 @@ public class VoxelMeshRenderer : MonoBehaviour
         //binder = GetComponentInParent<InstanceBinder>();
         
         mpb = new MaterialPropertyBlock();
-        mpb.SetInt("_InstanceID", aId);
+        mpb.SetInt("_InstanceID", iId);
+        mpb.SetInt("_SkinID", sId);
         mpb.SetInt("_BoneID", bId);
         mpb.SetVector("_MeshOffice",transform.localPosition);
         mpb.SetVector("_MeshSize",transform.localScale);

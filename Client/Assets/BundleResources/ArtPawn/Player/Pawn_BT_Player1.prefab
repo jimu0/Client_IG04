@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8764162798181134209
 Transform:
   m_ObjectHideFlags: 0
@@ -100,7 +100,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8547582656617590175
 Transform:
   m_ObjectHideFlags: 0
@@ -144,7 +144,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b962bb8bf9df5794f80f94eb35a0cc1f, type: 2}
+  - {fileID: 2100000, guid: a577db66c96a8ed448fd8eee430c220c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -216,7 +216,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7271121926607933594
 Transform:
   m_ObjectHideFlags: 0
@@ -299,7 +299,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2598996144677627281
 Transform:
   m_ObjectHideFlags: 0
@@ -417,6 +417,7 @@ MonoBehaviour:
   pawnPos: {x: 0, y: 0, z: 0}
   pawnRotation: {x: 0, y: 0, z: 0, w: 0}
   pawnAimWorldPos: {x: 0, y: 0, z: 0}
+  targetPawnId: 0
   pointerRectTransform: {fileID: 0}
   mainCamera: {fileID: 0}
   moveSpeed: 7
@@ -424,9 +425,8 @@ MonoBehaviour:
   color: {r: 0, g: 1, b: 1, a: 1}
   show: 0
   playerPos: {x: 0, y: 0, z: 0}
-  targetPos: {x: 0, y: 0, z: 0}
   firearmsType: 0
-  bulletFlowMaterial: {fileID: 0}
+  bulletFlowMaterial: {fileID: 2100000, guid: 1b942b6ab5de39f40a5adaaac0c1fb15, type: 2}
 --- !u!114 &6887534413718376541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -456,7 +456,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6903344264128422782
 Transform:
   m_ObjectHideFlags: 0
@@ -539,7 +539,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2710939746807383960
 Transform:
   m_ObjectHideFlags: 0

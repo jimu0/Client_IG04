@@ -39,8 +39,12 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void InitializeGame()
     {
+        // 关闭垂直同步
+        QualitySettings.vSyncCount = 0;
         // 设置目标帧率
-        Application.targetFrameRate = 60;
+        Application.targetFrameRate = 280;
+        // 安卓使用最高支持刷新率
+        //Application.targetFrameRate = Screen.currentResolution.refreshRate;
         // 设置屏幕不休眠
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }

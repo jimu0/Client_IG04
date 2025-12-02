@@ -51,6 +51,14 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
+      - CollectPath: Assets/BundleResources/ArtPawn/Test2
+        CollectorGUID: b0bc0ba1dd43b364c8ae34a664232da5
+        CollectorType: 0
+        AddressRuleName: AddressByFolderAndFileName
+        PackRuleName: PackDirectory
+        FilterRuleName: CollectAll
+        AssetTags: 
+        UserData: 
     - GroupName: Shader
       GroupDesc: 
       AssetTags: 
