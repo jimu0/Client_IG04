@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: art_ro
+  m_Name: Npc1_Cube_ShenTi_mat
   m_Shader: {fileID: 4800000, guid: 332c1d9da9bb73049bf2a1a575a9f335, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -48,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6525e8efe2f77d44696fa95b4465f506, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9c3d468350b2ed74b9a3ade3aecc7434, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
