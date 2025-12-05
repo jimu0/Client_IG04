@@ -49,8 +49,7 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
             };
-
-            // ====== Fragment Shader Input ======
+            
             struct v2f
             {
                 float4 pos : SV_POSITION;
@@ -58,52 +57,39 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 float3 worldPos : TEXCOORD1;
                 float2 uv : TEXCOORD2;
             };
-
-            // ====== Vertex Shader ======
+            
             v2f vert(a2v v)
             {
                 v2f o;
-                // 正确变换到裁剪空间
-                o.pos = TransformObjectToHClip(v.vertex.xyz);
-                // 变换法线到世界空间
-                o.worldNormal = TransformObjectToWorldNormal(v.normal);
-                // 变换顶点位置到世界空间
-                o.worldPos = TransformObjectToWorld(v.vertex.xyz);
-                // 正确计算纹理坐标（使用 TRANSFORM_TEX 宏）
+                o.pos = TransformObjectToHClip(v.vertex.xyz); // 正确变换到裁剪空间
+                o.worldNormal = TransformObjectToWorldNormal(v.normal); // 变换法线到世界空间
+                o.worldPos = TransformObjectToWorld(v.vertex.xyz); // 变换顶点位置到世界空间
                 o.uv = v.uv;
-                
                 return o;
             }
-
-            // ====== Fragment Shader ======
             half4 frag(v2f i) : SV_Target
             {
-                // 纹理采样
                 half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-                // 获取主光源信息（颜色、方向）
-                Light mainLight = GetMainLight();
+                Light mainLight = GetMainLight(); // 获取主光源信息（颜色、方向）
                 half3 lightColor = mainLight.color * mainLight.distanceAttenuation * mainLight.shadowAttenuation;
                 float3 worldLightDir = normalize(mainLight.direction);
                 // Half-Lambert 漫反射模型
-                float NdotL = dot(normalize(i.worldNormal), worldLightDir);
-                float halfLambert = NdotL * 0.5 + 0.5; // 映射到 [0,1]，更柔和
+                float ndotL = dot(normalize(i.worldNormal), worldLightDir);
+                //float halfLambert = NdotL * 0.5 + 0.5; // 映射到 [0,1]，更柔和
                 // 视角方向
                 //float3 viewDir = normalize(GetWorldSpaceViewDir(i.worldPos));
                 //float3 halfDir = normalize(worldLightDir + viewDir);
                 // 高光（Blinn-Phong 模型）
                 //half NdotH = saturate(dot(normalize(i.worldNormal), halfDir));
                 //half3 specular = lightColor * pow(NdotH, _Gloss);
-
-                float3 worldPos = TransformObjectToWorld(i.worldPos).xyz;
-                float4x4 objSice = float4x4(float4(1,0,0,0),float4(0,1,0,0),float4(0,0,1,0),float4(0,0,0,1));
-                // 雾因子
-                float fogZFactor = ComputeSimpleFogZ(worldPos,objSice);
                 
-                // 整合
-                half3 finalColor = tex * NdotL * lightColor * _Color;// + specular;
-                finalColor.rgb = ApplySimpleFogZ(finalColor.rgb, fogZFactor);
+                // 整合颜色
+                half3 finalColor = tex * ndotL * lightColor * _Color;// + specular;
+                //雾效
+                float fogZFactor = ComputeVolumeFog(i.worldPos); // 雾因子
+                finalColor = ApplyVolumeFog(finalColor, fogZFactor);
                 
-                return half4(finalColor, 1.0);
+                return float4(finalColor, 1.0);
             }
             ENDHLSL
         }
