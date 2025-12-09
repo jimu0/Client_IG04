@@ -107,7 +107,7 @@ public class ResourceManager
 
     public static void PreloadRes(Action next)
     {
-        // 加载shader
+	    // 加载shader
         var assetInfos = package.GetAssetInfos("Shader");
         foreach (var item in assetInfos)
         {

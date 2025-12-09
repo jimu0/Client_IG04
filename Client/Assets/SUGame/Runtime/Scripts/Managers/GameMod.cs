@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 using UnityEngine.Diagnostics;
 
 public class GameMod : Singleton<GameMod>
@@ -36,6 +37,20 @@ public class GameMod : Singleton<GameMod>
         GameObject level0 = new() { name = "Level0" };
         World world = level0.AddComponent<World>();
         world.maps.Add(new Map(1, 10, 10));
+        
+        GameObject fogController = ResourceManager.LoadResSync<GameObject>("ArtSite_FogController");
+        Instantiate(fogController);
+        // //DontDestroyOnLoad(fogController);
+        // GameObject fogZVolume = fogController.GetComponent<FogController>().fogZVolume;
+        // List<ConstraintSource> css = new List<ConstraintSource>();
+        // ConstraintSource cs=new()
+        // {
+        //     sourceTransform = Camera.main.transform,
+        //     weight = 1
+        // };
+        // css.Add(cs);
+        // fogZVolume.GetComponent<ParentConstraint>().SetSources(css);
+        
         
         // 绘制白点
         DrawWhiteDots(world.maps[0]);

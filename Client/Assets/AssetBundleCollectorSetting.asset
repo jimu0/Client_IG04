@@ -64,7 +64,7 @@ MonoBehaviour:
       AssetTags: 
       ActiveRuleName: EnableGroup
       Collectors:
-      - CollectPath: Assets/shader
+      - CollectPath: Assets/Shaders
         CollectorGUID: 36285ec2f106f47498663e5f42817568
         CollectorType: 0
         AddressRuleName: AddressByGroupAndFileName
@@ -98,7 +98,7 @@ MonoBehaviour:
         FilterRuleName: CollectAll
         AssetTags: 
         UserData: 
-    - GroupName: AttSite
+    - GroupName: ArtSite
       GroupDesc: "\u5173\u5361"
       AssetTags: 
       ActiveRuleName: EnableGroup

@@ -25,6 +25,7 @@ Shader "Custom/VoxelAnimatedInstanced"
             #pragma fragment frag
             
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Assets/Shaders/Common/Fog.hlsl"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
@@ -62,6 +63,7 @@ Shader "Custom/VoxelAnimatedInstanced"
                 float3 normal : NORMAL;
                 float2 uv : TEXCOORD0;
                 float4 color : COLOR;
+                float3 worldPos : TEXCOORD2;
             };
 
             v2f vert(appdata v)
@@ -86,7 +88,9 @@ Shader "Custom/VoxelAnimatedInstanced"
                 o.pos = mul(UNITY_MATRIX_VP, mul(boneMatrix, float4(scaledVertex, 1)));
                 o.normal = normalize(mul((float3x3)boneMatrix, v.normal / meshSize));
                 //o.normal = mul((float3x3)boneMatrix, v.normal);
+                o.worldPos = TransformObjectToWorld(v.vertex.xyz); // 变换顶点位置到世界空间
 
+                
                 // 更具meshUVID和boneID来使UV偏移到正确的纹理分配位置，
                 float2 texelSize = float2(_MainTex_TexelSize.x, _MainTex_TexelSize.y);
                 float2 cellSizeUV = texelSize * 32;   // 一个 32×32 的格子的 UV 范围
@@ -105,7 +109,10 @@ Shader "Custom/VoxelAnimatedInstanced"
             {
                 float4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
                 float4 outCol = tex * i.color;
-                return outCol;
+                //雾效
+                float3 forColor = ComputeVolumeFog(outCol,i.worldPos);
+                
+                return float4(forColor, 1.0);;
             }
 
             ENDHLSL

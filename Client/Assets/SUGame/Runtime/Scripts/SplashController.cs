@@ -76,7 +76,7 @@ public class SplashController : MonoBehaviour
         {
             //Debug.Log("[SplashController] 跳过资源加载");
             isResourceLoadingComplete = true;
-            //return;
+            return;
         }
         
         // 等待资源管理器初始化

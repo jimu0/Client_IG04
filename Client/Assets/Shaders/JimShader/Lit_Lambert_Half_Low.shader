@@ -42,6 +42,7 @@ Shader "Unlit/Lit_Lambert_Half_Low"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
             //float _Gloss;
+            ///float4x4 _FogW2LMatrix;
             
             struct a2v
             {
@@ -54,8 +55,10 @@ Shader "Unlit/Lit_Lambert_Half_Low"
             {
                 float4 pos : SV_POSITION;
                 float3 worldNormal : TEXCOORD0;
-                float3 worldPos : TEXCOORD1;
-                float2 uv : TEXCOORD2;
+                float2 uv : TEXCOORD1;
+                float3 worldPos : TEXCOORD2;
+                //float3 worldPos2 : TEXCOORD3;
+                //float3 fogCoord : TEXCOORD4;
             };
             
             v2f vert(a2v v)
@@ -63,8 +66,10 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 v2f o;
                 o.pos = TransformObjectToHClip(v.vertex.xyz); // 正确变换到裁剪空间
                 o.worldNormal = TransformObjectToWorldNormal(v.normal); // 变换法线到世界空间
-                o.worldPos = TransformObjectToWorld(v.vertex.xyz); // 变换顶点位置到世界空间
                 o.uv = v.uv;
+                o.worldPos = TransformObjectToWorld(v.vertex.xyz); // 变换顶点位置到世界空间
+                //o.worldPos2 = mul(unity_ObjectToWorld,v.vertex).xyz;
+                //o.fogCoord = GetMatrixFogCoord(o.worldPos2);
                 return o;
             }
             half4 frag(v2f i) : SV_Target
@@ -85,11 +90,16 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 
                 // 整合颜色
                 half3 finalColor = tex * ndotL * lightColor * _Color;// + specular;
+
                 //雾效
-                float fogZFactor = ComputeVolumeFog(i.worldPos); // 雾因子
-                finalColor = ApplyVolumeFog(finalColor, fogZFactor);
+                float3 forColor = ComputeVolumeFog(finalColor,i.worldPos);
+                //float3 blendCol = lerp(_FogY_Color.rgb,finalColor,saturate(i.fogCoord.y));
+                //blendCol = lerp(_FogY_Color.rgb,blendCol,saturate(-i.fogCoord.z));
                 
-                return float4(finalColor, 1.0);
+                
+
+                
+                return float4(forColor, 1.0);
             }
             ENDHLSL
         }

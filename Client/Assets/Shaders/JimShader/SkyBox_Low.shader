@@ -42,7 +42,8 @@ Shader "Unlit/Skybox_Low"
             }
             float4 frag(v2f i) : SV_Target
             {
-                float3 col = ApplyVolumeFog(_Color.rgb, _FogZ_Enable * _FogEnable); // 全雾覆盖
+                float3 col = lerp(_Color.rgb, _FogZ_Color.rgb, _FogZ_Enable * _FogEnable); // 全雾覆盖
+                
                 return float4(col, 1.0);
             }
             

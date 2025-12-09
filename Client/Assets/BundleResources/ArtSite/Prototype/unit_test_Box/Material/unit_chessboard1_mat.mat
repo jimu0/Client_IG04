@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: unit_chessboard1_mat
-  m_Shader: {fileID: 4800000, guid: 0483cfdbcd7508d499f8ef0e6d09059e, type: 3}
+  m_Shader: {fileID: 4800000, guid: 332c1d9da9bb73049bf2a1a575a9f335, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
