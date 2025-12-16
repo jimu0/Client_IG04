@@ -35,7 +35,12 @@ public class FogController : MonoBehaviour
     Vector3 lastFogYOrigin;
     Vector3 lastFogYDir;
     Transform lastFogW2LMatrix;
-    
+    //遮罩
+    public float fogMaskRadius = 20;      // 遮罩半径
+    public float fogMaskStrength = 1;    // 遮罩强度
+    //遮罩缓存
+    float lastFogMaskRadius;
+    float lastFogMaskStrength;
     void Start()
     {
         SetGlobalFog();
@@ -56,7 +61,10 @@ public class FogController : MonoBehaviour
             UpdateFogYRange();
             UpdateFogYPos();
             UpdateFogYRot();
-            //UpdateFogW2LMatrix();
+            
+            UpdateFogW2LMatrix();
+            SetFogMaskRadius();
+            SetFogMaskStrength();
         }
         else
         {
@@ -65,7 +73,8 @@ public class FogController : MonoBehaviour
 
         if (fogZVolume != null)
         {
-            fogZVolume.transform.SetPositionAndRotation(Camera.main.transform.position,quaternion.identity);
+            if (Camera.main != null)
+                fogZVolume.transform.SetPositionAndRotation(Camera.main.transform.position, quaternion.identity);
 
             UpdateFogZEnable();
             UpdateFogZColor();
@@ -95,7 +104,7 @@ public class FogController : MonoBehaviour
         {
             enableFogZ = false;
         }
-
+        
 
 
 
@@ -187,4 +196,16 @@ public class FogController : MonoBehaviour
         lastFogW2LMatrix = pos;
     }
 
+    void SetFogMaskRadius()
+    {
+        if(Math.Abs(fogMaskRadius - lastFogMaskRadius) < 0.01f)return;
+        Shader.SetGlobalFloat("_FogMaskRadius",fogMaskRadius);
+        lastFogMaskRadius = fogMaskRadius;
+    }
+    void SetFogMaskStrength()
+    {
+        if(Math.Abs(fogMaskStrength - lastFogMaskStrength) < 0.01f)return;
+        Shader.SetGlobalFloat("_FogMaskStrength",fogMaskStrength);
+        lastFogMaskStrength = fogMaskStrength;
+    }
 }

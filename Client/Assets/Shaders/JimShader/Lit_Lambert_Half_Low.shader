@@ -80,7 +80,8 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 float3 worldLightDir = normalize(mainLight.direction);
                 // Half-Lambert 漫反射模型
                 float ndotL = dot(normalize(i.worldNormal), worldLightDir);
-                //float halfLambert = NdotL * 0.5 + 0.5; // 映射到 [0,1]，更柔和
+               // float halfLambert = ndotL * 0.5 + 0.5; // 映射到 [0,1]，更柔和
+                 float halfLambert = mad( ndotL ,0.5,0.5); // 映射到 [0,1]，更柔和
                 // 视角方向
                 //float3 viewDir = normalize(GetWorldSpaceViewDir(i.worldPos));
                 //float3 halfDir = normalize(worldLightDir + viewDir);
@@ -89,12 +90,12 @@ Shader "Unlit/Lit_Lambert_Half_Low"
                 //half3 specular = lightColor * pow(NdotH, _Gloss);
                 
                 // 整合颜色
-                half3 finalColor = tex * ndotL * lightColor * _Color;// + specular;
+                half3 finalColor = tex * halfLambert * lightColor * _Color;// + specular;
 
                 //雾效
                 float3 forColor = ComputeVolumeFog(finalColor,i.worldPos);
-                //float3 blendCol = lerp(_FogY_Color.rgb,finalColor,saturate(i.fogCoord.y));
-                //blendCol = lerp(_FogY_Color.rgb,blendCol,saturate(-i.fogCoord.z));
+                //float3 blendCol = lerp(_FogY_Color.rgb,finalColor,saturate(fogCoord.y));
+                //blendCol = lerp(_FogY_Color.rgb,blendCol,saturate(fogCoord.z));
                 
                 
 

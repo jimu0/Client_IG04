@@ -40,6 +40,7 @@ Shader "TDUShader/BulletFlowEffect"
             
             //#include "UnityCG.cginc"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Assets/Shaders/Common/Fog.hlsl"
             
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
@@ -71,6 +72,7 @@ Shader "TDUShader/BulletFlowEffect"
             {
                 float4 positionCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float3 worldPos : TEXCOORD1;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -82,6 +84,8 @@ Shader "TDUShader/BulletFlowEffect"
 
                 float3 positionWS = TransformObjectToWorld(i.positionOS.xyz);
                 o.positionCS = TransformWorldToHClip(positionWS);
+
+                o.worldPos = TransformObjectToWorld(i.positionOS.xyz);
                 
                 float stretchValue = UNITY_ACCESS_INSTANCED_PROP(Props, _StretchValue);
                 float elapsedTime = UNITY_ACCESS_INSTANCED_PROP(Props, _ElapsedTime);
@@ -101,11 +105,18 @@ Shader "TDUShader/BulletFlowEffect"
                 //float randomValue = frac(sin(dot(i.uv, float2(12.9898, 78.233))) * 43758.5453);
                 UNITY_SETUP_INSTANCE_ID(i);
                 float4 emission = UNITY_ACCESS_INSTANCED_PROP(Props, _Emission);
-                
+
+                float3 forColor = ComputeVolumeFog(emission,i.worldPos);//雾效
+
                 half4 tex = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv);
-                half4 color = tex * emission * _Light;
+                half4 color = tex * float4(forColor, 1.0) * _Light;
                 clip(tex.a - _Cutoff);
+
+                
                 color.a = tex.a;
+
+                
+                
                 
                 return color;
             }
