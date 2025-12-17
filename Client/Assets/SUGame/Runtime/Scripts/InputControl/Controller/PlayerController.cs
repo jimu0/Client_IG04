@@ -239,7 +239,7 @@ namespace SUGame.Runtime.Scripts.InputControl
             
             if (mainCamera == null)
             {
-                camRoot = GameManager.Instance.cameraRoot;
+                camRoot = GameStateManager.Instance.cameraRoot;
                 //if(!mainCamera)Debug.Log(GameObject.Find("SplashController").name);
                 mainCamera = camRoot.GetComponentsInChildren<Camera>()[0];
                 pointerRectTransform = FindObjectOfType<Canvas>().GetComponentsInChildren<RectTransform>()[1];

@@ -12,9 +12,9 @@ public class StartingProcedure : MonoBehaviour
     }
     void LoadLoginScene()
     {
-        if (GameManager.Instance != null)
+        if (GameStateManager.Instance != null)
         {
-            GameManager.Instance.LoadScene("SceneMain");
+            GameStateManager.Instance.LoadScene("SceneMain");
         }
     }
 }

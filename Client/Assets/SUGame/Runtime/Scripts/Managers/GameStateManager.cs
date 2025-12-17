@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 /// 2. 游戏状态管理
 /// 3. 全局事件协调
 /// </summary>
-public class GameManager : Singleton<GameManager>
+public class GameStateManager : Singleton<GameStateManager>
 {
     [Header("游戏状态")]
     public bool isGamePaused = false;

@@ -75,7 +75,7 @@ public class MainSceneController : MonoBehaviour
     private void OnQuitClick()
     {
         Debug.Log("[MainSceneController] 退出游戏");
-        GameManager.Instance.QuitGame();
+        GameStateManager.Instance.QuitGame();
     }
 
     void OnDestroy()

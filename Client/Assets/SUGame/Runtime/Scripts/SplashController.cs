@@ -50,7 +50,7 @@ public class SplashController : MonoBehaviour
     {
         
         // 判断是否已经存在GameManager
-        if (GameManager.Instance == null)
+        if (GameStateManager.Instance == null)
         {
             //Debug.Log("[SplashController] 加载全局场景");
             SceneManager.LoadScene("Global", LoadSceneMode.Additive);
@@ -61,7 +61,7 @@ public class SplashController : MonoBehaviour
         //Debug.Log("[SplashController] 全局场景加载完成");
         
         // 加载主镜头
-        GameManager.Instance.LoadGlobalCamera(() => isCameraLoaded = true);
+        GameStateManager.Instance.LoadGlobalCamera(() => isCameraLoaded = true);
         // 开始资源加载流程
         ResourceLoadingFlow();
     }
@@ -95,7 +95,7 @@ public class SplashController : MonoBehaviour
     {
         
         if (!CanProceedToMainScene() || !isTriggered) return;
-        GameManager.Instance.GenerateGameMod();
+        GameStateManager.Instance.GenerateGameMod();
 
         //var packageManager = new PackageManager();
         // 示例：使用默认的本地资源包服务（你也可以换成远程下载、编辑器模拟等）
