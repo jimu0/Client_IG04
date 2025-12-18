@@ -34,6 +34,8 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     public IPlayerController iPlayerController;
     private GraphicRaycaster raycaster;
+
+    private GameInput gameInput = new();
     
     // 注册一个可交互对象
     // public static void RegisterInteractable(IPlayerController interactable)
@@ -86,7 +88,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     public GameInput Sample()
     {
-        GameInput gameInput = new();
+        gameInput.touchInputManager = this;
         return gameInput;
     }
 

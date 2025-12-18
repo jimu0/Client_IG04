@@ -1,62 +1,75 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Diagnostics;
 
-public class GameMode : Singleton<GameMode>
+public class GameMode
 {
-    public GameObject playerObj;
-    //public GameObject world;
-    //public GameObject[];
-
+    private string settings;//规则设置
+    public int id = 1;
+    public List<World> worlds = new();
+    public List<Pawn> pawns = new();
+    public Pawn playerPawn;
     void Start()
     {
-        playerObj = ResPlayer();
-        GenerateLevel();
-
-        GameObject bulletPool = ResourceManager.LoadResSync<GameObject>("ArtProp_BullePool");
-        Instantiate(bulletPool);
+        
+        //GameObject bulletPool = ResourceManager.LoadResSync<GameObject>("ArtProp_BullePool");
+        //Instantiate(bulletPool);
 
     }
     
-    private GameObject ResPlayer()
-    {
 
-        GameObject player = ResourceManager.LoadResSync<GameObject>("Player_Pawn_BT_Player1");
-
-
-        return Instantiate(player);
-        
-    }
+    // private Pawn ResPlayer()
+    // {
+    //
+    //     Pawn player = ResourceManager.LoadResSync<Pawn>("Player_Pawn_BT_Player1");
+    //     player.name = "playerPawnObj";
+    //
+    //     return Instantiate(player);
+    //     
+    // }
     
     /// <summary>
-    /// 生成世界
+    /// 创建世界,临时
     /// </summary>
-    public void GenerateLevel()
+    public void CreateWorld(int number)
     {
-        GameObject level0 = new() { name = "Level0" };
-        World world = level0.AddComponent<World>();
-        world.maps.Add(new Map(1, 10, 10));
         
-        GameObject fogController = ResourceManager.LoadResSync<GameObject>("ArtSite_FogController");
-        Instantiate(fogController);
-        // //DontDestroyOnLoad(fogController);
-        // GameObject fogZVolume = fogController.GetComponent<FogController>().fogZVolume;
-        // List<ConstraintSource> css = new List<ConstraintSource>();
-        // ConstraintSource cs=new()
-        // {
-        //     sourceTransform = Camera.main.transform,
-        //     weight = 1
-        // };
-        // css.Add(cs);
-        // fogZVolume.GetComponent<ParentConstraint>().SetSources(css);
+        Map map = new(1, 10, 10);
+        if (worlds != null && worlds.Count > number)
+        {
+            List<Map> maps = worlds[number].maps;
+            if (maps is { Count: > 0 })
+            {
+                worlds[number].maps[0] = map;
+            }
+            else
+            {
+                worlds[number].maps.Add(map);
+            }
+        }
+        else
+        {
+            worlds = new();
+            for (int i = 0; i < number; i++)
+            {
+                World world = new(i);
+                world.maps.Add(map);
+                worlds.Add(world);
+            }
+        }
+
+
+
         
-        
+        //GameObject fogController = ResourceManager.LoadResSync<GameObject>("ArtSite_FogController");
+        //Instantiate(fogController);
+
         // 绘制白点
-        DrawWhiteDots(world.maps[0]);
-        //throw new System.NotImplementedException();
+        //DrawWhiteDots(world.maps[0]);
     }
 
 

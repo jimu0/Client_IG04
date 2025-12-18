@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -20,8 +21,8 @@ public class GameStateManager : Singleton<GameStateManager>
     private const string CameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;//主镜头
     
-    public GameMode gameMode;//游戏模式
-    private GameInput gameInput;
+    private List<GameMode> gameMode = new();
+    private GameInput gameInput = new();
     private float accum; //时间累加器
     private float fixedDt = 1f;// / 60f; //游戏系统最小时间量
     
@@ -87,7 +88,7 @@ public class GameStateManager : Singleton<GameStateManager>
     /// </summary>
     public void GenerateGameMod()
     {
-        gameMode = gameObject.AddComponent<GameMode>();
+        gameMode.Add(new GameMode());
         //DontDestroyOnLoad(gameMod);
     }
 

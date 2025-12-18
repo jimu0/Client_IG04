@@ -11,8 +11,9 @@ using File = System.IO.File;
 //using UnityTimer;
 //using Timer = UnityTimer.Timer;
 
-public class World : MonoBehaviour
+public class World
 {
+    public int id;
     public float gF = 1;//游戏帧率
     //private int gFCount;//gF计数
     //private Timer gfTimer;
@@ -21,6 +22,11 @@ public class World : MonoBehaviour
     //string file="hachitable";
     //临时
     private const string GameConfDir = "Assets/Scripts/GameConfig/Bin";
+
+    public World(int i)
+    {
+        id = i;
+    }
 
     public struct PawnSprl
     {
@@ -41,15 +47,6 @@ public class World : MonoBehaviour
     }
         
     public PawnSprl[] pawnsSprl = new PawnSprl[60];
-    // public struct PawnStatus
-    // {
-    //     public float hp;
-    //     public float armor;
-    //     public  float skillCD;
-    //     public  float uniqueSkillCD;
-    // }
-
-    //public PawnStatus[] pawnStatusArray = new PawnStatus[60];//角色属性
 
 
 

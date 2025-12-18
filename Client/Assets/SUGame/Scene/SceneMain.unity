@@ -54353,7 +54353,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &177900485
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134481,7 +134481,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &442464892
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -244613,7 +244613,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &803834081
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -361576,7 +361576,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1204467193
 Transform:
   m_ObjectHideFlags: 0
@@ -468918,7 +468918,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1555529239
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -542969,7 +542969,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1802179301
 Transform:
   m_ObjectHideFlags: 0
@@ -609859,7 +609859,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!136 &2039632674
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -642353,7 +642353,7 @@ PrefabInstance:
     - target: {fileID: 3992207170360525747, guid: 4d838429b0a0dab4eb6fb323845a8e13,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8399423045744671165, guid: 4d838429b0a0dab4eb6fb323845a8e13,
         type: 3}
