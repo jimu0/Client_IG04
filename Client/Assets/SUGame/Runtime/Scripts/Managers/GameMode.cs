@@ -5,17 +5,18 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Diagnostics;
 
-public class GameMod : Singleton<GameMod>
+public class GameMode : Singleton<GameMode>
 {
     public GameObject playerObj;
-    //public GameObject[] 
+    //public GameObject[];
+
     void Start()
     {
         playerObj = ResPlayer();
         GenerateLevel();
 
-        GameObject BullePool = ResourceManager.LoadResSync<GameObject>("ArtProp_BullePool");
-        Instantiate(BullePool);
+        GameObject bulletPool = ResourceManager.LoadResSync<GameObject>("ArtProp_BullePool");
+        Instantiate(bulletPool);
 
     }
     

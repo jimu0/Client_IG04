@@ -92,7 +92,7 @@ namespace SUGame.Runtime.Scripts.InputControl
         private void OnDestroy()
         {
             // 销毁时取消注册，避免空引用或错误调用
-            TouchInputManager.Instance.iPlayerController = null;
+            if(TouchInputManager.HasInstance) TouchInputManager.Instance.iPlayerController = null;
             
             StopAllCoroutines();
         }

@@ -116,7 +116,7 @@ public class EventSystem : Singleton<EventSystem>
     {
         int eventCount = _events.Count;
         _events.Clear();
-        Debug.Log($"[EventSystem] 清除了 {eventCount} 个事件的所有订阅");
+        if(eventCount > 0)Debug.Log($"[EventSystem] 清除了 {eventCount} 个事件的所有订阅");
     }
     
     /// <summary>
@@ -136,8 +136,9 @@ public class EventSystem : Singleton<EventSystem>
     /// </summary>
     protected override void OnSingletonDestroy()
     {
-        ClearAllEvents();
         base.OnSingletonDestroy();
+        ClearAllEvents();
+        Destroy(gameObject);
         Debug.Log("[EventSystem] 事件系统已清理");
     }
 }

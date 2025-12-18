@@ -58,7 +58,7 @@ public class SplashController : MonoBehaviour
             yield return new WaitUntil(() => SceneManager.GetSceneByName("Global").isLoaded);
         }
         isGlobalSceneLoaded = true;
-        //Debug.Log("[SplashController] 全局场景加载完成");
+        Debug.Log("[SplashController] 全局场景加载完成");
         
         // 加载主镜头
         GameStateManager.Instance.LoadGlobalCamera(() => isCameraLoaded = true);
@@ -104,7 +104,7 @@ public class SplashController : MonoBehaviour
         
         isTriggered = false;
         StopCoroutine(_initCoroutine);
-        Destroy(gameObject);
+        Destroy(gameObject); // 启动程序使命结束
     }
 
 

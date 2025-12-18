@@ -20,7 +20,7 @@ public class TestTouch : MonoBehaviour
     }
     private void OnDisable()
     {
-        touchInputManager.OnEndTouch -= Move;
+        if (TouchInputManager.HasInstance) touchInputManager.OnEndTouch -= Move;
     }
 
     public void Move(Vector2 screenPosition,float time)

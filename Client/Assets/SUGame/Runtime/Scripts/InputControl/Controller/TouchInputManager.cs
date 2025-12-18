@@ -56,6 +56,15 @@ public class TouchInputManager : Singleton<TouchInputManager>
     //     }
     // }
     
+    /// <summary>
+    /// 单例初始化完成后的自定义初始化
+    /// </summary>
+    protected override void OnSingletonAwake()
+    {
+        base.OnSingletonAwake();
+        Debug.Log("[TouchInputManager] 触摸输入系统初始化完成");
+    }
+
     void Awake()
     {
         raycaster = FindObjectOfType<GraphicRaycaster>();
@@ -74,7 +83,14 @@ public class TouchInputManager : Singleton<TouchInputManager>
         UpdateCrosshair(); // 更新准心坐标
         UpdateActions(); // 检测功能按钮
     }
-    
+
+    public GameInput Sample()
+    {
+        GameInput gameInput = new();
+        return gameInput;
+    }
+
+
     void HandleTouches()
     {
         
@@ -221,7 +237,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
         }
         else
         {
-            Debug.LogWarning($"iPlayerController为空！无法执行移动控制");
+            //Debug.LogWarning($"iPlayerController为空！无法执行移动控制");
         }
     }
 
@@ -248,7 +264,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
         }
         else
         {
-            Debug.LogWarning($"iPlayerController为空！无法执行准心控制");
+            //Debug.LogWarning($"iPlayerController为空！无法执行准心控制");
         }
     }
 
@@ -294,7 +310,18 @@ public class TouchInputManager : Singleton<TouchInputManager>
     private void OnDestroy()
     {
         // 销毁时取消注册，避免空引用或错误调用
+        //Destroy(gameObject);
+        
+    }
+    
+    /// <summary>
+    /// 单例销毁时的清理工作
+    /// </summary>
+    protected override void OnSingletonDestroy()
+    {
+        base.OnSingletonDestroy();
         Destroy(gameObject);
+        Debug.Log("[TouchInputManager] 触摸输入系统已清理");
     }
 
     //

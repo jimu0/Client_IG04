@@ -74,7 +74,7 @@ public class World : MonoBehaviour
     void OnDisable()
     {
         // 取消订阅，防止内存泄漏
-        EventSystem.Instance.Unsubscribe(GameEvent.PAWN_POSITION_REPORT, OnPawnSPRLReported);
+        if (EventSystem.HasInstance) EventSystem.Instance.Unsubscribe(GameEvent.PAWN_POSITION_REPORT, OnPawnSPRLReported);
     }
 
     private void Pulse()

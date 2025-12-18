@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.Serialization;
 
 
 /// <summary>
@@ -20,20 +20,24 @@ public class GameStateManager : Singleton<GameStateManager>
     private const string CameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;//主镜头
     
-    public GameMod gameMod;//游戏模式
-
+    public GameMode gameMode;//游戏模式
+    private World gameWorld;
+    private GameInput gameInput;
+    private float accum; //时间累加器
+    private float fixedDt = 1f;// / 60f; //游戏系统最小时间量
+    
     /// <summary>
     /// 单例初始化完成后的自定义初始化
     /// </summary>
     protected override void OnSingletonAwake()
     {
         base.OnSingletonAwake();
-        //Debug.Log("[GameManager] 游戏管理器初始化完成");
+        Debug.Log("[GameManager] 游戏管理器初始化完成");
         // 初始化游戏基础设置
         InitializeGame();
+        
     }
     
-
     /// <summary>
     /// 初始化游戏基础设置
     /// </summary>
@@ -48,6 +52,25 @@ public class GameStateManager : Singleton<GameStateManager>
         // 设置屏幕不休眠
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
     }
+    
+    /// <summary>
+    /// 游戏主循环：采样输入 → 固定步长模拟 → 渲染插值
+    /// </summary>
+    private void Update()
+    {
+        accum += Time.deltaTime;
+        while (accum >= fixedDt)
+        {
+            gameInput = TouchInputManager.Instance.Sample(); //输入
+            GameSimulation.Step(gameWorld, gameInput, fixedDt); //模拟
+            accum -= fixedDt;
+        }
+        GameRenderer.Interpolate(gameWorld, accum / fixedDt); //渲染
+    }
+    
+
+
+
 
     /// <summary>
     /// 加载全局主相机
@@ -79,10 +102,12 @@ public class GameStateManager : Singleton<GameStateManager>
     }
 
     
-
+    /// <summary>
+    /// 创建游戏模式
+    /// </summary>
     public void GenerateGameMod()
     {
-        gameMod = gameObject.AddComponent<GameMod>();
+        gameMode = gameObject.AddComponent<GameMode>();
         //DontDestroyOnLoad(gameMod);
     }
 
