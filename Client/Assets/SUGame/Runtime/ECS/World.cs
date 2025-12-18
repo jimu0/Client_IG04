@@ -55,7 +55,7 @@ public class World : MonoBehaviour
 
     public void Awake()
     {
-        TimerManager.Init();
+        TimerSystem.Init();
         //worldLifeID = TimerManager.Register(gF, Pulse, null, true, true, this);
         
         //gfTimer = new Timer(gF*1000);
@@ -82,9 +82,9 @@ public class World : MonoBehaviour
         Debug.Log("脉搏");
         
     }
-    private void PulsePause() { TimerManager.Pause(worldLifeID);}
-    private void PulseResume() { TimerManager.Resume(worldLifeID);}
-    private void PulseCancel() { TimerManager.Cancel(worldLifeID);}
+    private void PulsePause() { TimerSystem.Pause(worldLifeID);}
+    private void PulseResume() { TimerSystem.Resume(worldLifeID);}
+    private void PulseCancel() { TimerSystem.Cancel(worldLifeID);}
 
     public void Start()
     {

@@ -13,7 +13,7 @@ public class GameSimulation
         
     }
 
-    public static void Step(World world,GameInput input,float dt)
+    public static void Step(GameMode gameMode,GameInput input,float dt)
     {
         
     }

@@ -11,21 +11,20 @@ using YooAsset;
 /// </summary>
 public class SplashController : MonoBehaviour
 {
-    [Header("启动设置")]
-    [SerializeField] private float minSplashTime = 2f; // 最小启动画面显示时间
+    const string  SceneMainName = "SceneMain"; 
+    [Header("启动设置")] [SerializeField] private float minSplashTime = 2f; // 最小启动时间
     [SerializeField] private bool skipResourceLoading = false; // 是否跳过资源加载（用于快速测试）
-    [Header("相机设置")]
-    [SerializeField] private string cameraPrefabPath = "CameraRoot"; // 主相机预制体路径
+    [Header("相机设置")] [SerializeField] private string cameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;
 
-    private bool isGlobalSceneLoaded = false; //全局场景是否已加载
+    private bool isGlobalSceneLoaded = false; //全局Scene是否已加载
     private bool isCameraLoaded = false; //主相机是否已加载
     private bool isResourceLoadingComplete = false; // 资源加载是否完成
     private float splashStartTime; //用于判断最小启动时间是否已满足
-    private bool isTriggered = true; // 用于监听是否已经触发过生成世界
+    private bool isTriggered = true; // 用于监听是否已经触发过启动器
     private Coroutine _initCoroutine;
     
-    
+
     void Start()
     {
         splashStartTime = Time.time;
@@ -36,10 +35,10 @@ public class SplashController : MonoBehaviour
     private IEnumerator InitializationFlow()
     {
         // 1. 先初始化资源系统（YooAsset、Package 等）
-        yield return ResourceManager.Init();  // 等待初始化完成
+        yield return ResourceManager.Init(); // 等待初始化完成
 
         // 2. 初始化完成，再加载全局场景
-        yield return LoadGlobalScene();       // 加载主场景、相机、其他逻辑
+        yield return LoadGlobalScene(); // 加载主场景、相机、其他逻辑
     }
 
 
@@ -48,22 +47,21 @@ public class SplashController : MonoBehaviour
     /// </summary>
     private IEnumerator LoadGlobalScene()
     {
-        
-        // 判断是否已经存在GameManager
-        if (GameStateManager.Instance == null)
+        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != SceneMainName)
         {
-            //Debug.Log("[SplashController] 加载全局场景");
-            SceneManager.LoadScene("Global", LoadSceneMode.Additive);
+            GameStateManager.Instance.LoadScene(SceneMainName);
+            //SceneManager.LoadScene("Global", LoadSceneMode.Additive);
             // 等待场景完全加载完成
-            yield return new WaitUntil(() => SceneManager.GetSceneByName("Global").isLoaded);
+            yield return new WaitUntil(() => UnityEngine.SceneManagement.SceneManager.GetSceneByName(SceneMainName).isLoaded);
         }
         isGlobalSceneLoaded = true;
         Debug.Log("[SplashController] 全局场景加载完成");
-        
+
         // 加载主镜头
         GameStateManager.Instance.LoadGlobalCamera(() => isCameraLoaded = true);
         // 开始资源加载流程
         ResourceLoadingFlow();
+        
     }
 
 

@@ -66,7 +66,7 @@ namespace SUGame.Runtime.Scripts.InputControl
             
             // 注册交互接口
             TouchInputManager.Instance.iPlayerController = this;
-            TimerManager.Init();
+            TimerSystem.Init();
             //fireRateTimerID = TimerManager.Register(0.1f, Fire, null, true, true, null);
 
 
@@ -188,8 +188,8 @@ namespace SUGame.Runtime.Scripts.InputControl
                 Fire();
                 if (fireTriggerState)
                 {
-                    TimerManager.Cancel(fireRateTimerID);
-                    fireRateTimerID = TimerManager.Register(0.1f, Fire, null, true, true, null);
+                    TimerSystem.Cancel(fireRateTimerID);
+                    fireRateTimerID = TimerSystem.Register(0.1f, Fire, null, true, true, null);
                 }
 
                 
@@ -210,7 +210,7 @@ namespace SUGame.Runtime.Scripts.InputControl
             BullePool.BullProperty gObj = BullePool.bullPool.Get();
             BullePool.Set(gObj, 1, pawnPos, transform.position + actorTsf.forward * 50f);
             //DrawTrajectory();
-            fireLineRateTimerID = TimerManager.Register(0.1f, BulletFly, null, false, true, null);
+            fireLineRateTimerID = TimerSystem.Register(0.1f, BulletFly, null, false, true, null);
             
         }
 
@@ -227,7 +227,7 @@ namespace SUGame.Runtime.Scripts.InputControl
         public void SetFireTriggerState(bool v)
         {
             fireTriggerState = v;
-            if (!fireTriggerState) TimerManager.Cancel(fireRateTimerID);
+            if (!fireTriggerState) TimerSystem.Cancel(fireRateTimerID);
         }
 
 
@@ -298,7 +298,7 @@ namespace SUGame.Runtime.Scripts.InputControl
         {
             //show = false;
             //line.enabled = show;
-            TimerManager.Cancel(fireLineRateTimerID);
+            TimerSystem.Cancel(fireLineRateTimerID);
         
         }
         

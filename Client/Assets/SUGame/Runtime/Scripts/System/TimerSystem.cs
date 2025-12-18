@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityTimer;
 
-public static class TimerManager
+public static class TimerSystem
 {
     public static int TimerID = 0;
     private static Dictionary<int, Timer> m_dicTimer;

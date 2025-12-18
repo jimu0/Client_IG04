@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 /// 3. 场景切换动画
 /// 4. 登录验证和跳转
 /// </summary>
-public class SceneLoader : Singleton<SceneLoader>
+public class GameSceneManager : Singleton<GameSceneManager>
 {
     [Header("场景加载设置")]
     [SerializeField] private float minimumLoadingTime = 1.0f; // 最小加载时间，确保用户能看到加载界面
@@ -63,7 +63,7 @@ public class SceneLoader : Singleton<SceneLoader>
         }
         
         // 开始异步加载
-        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(sceneName, mode);
+        AsyncOperation asyncOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, mode);
         asyncOperation.allowSceneActivation = false;
         
         // 更新加载进度

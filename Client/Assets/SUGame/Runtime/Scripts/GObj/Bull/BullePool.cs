@@ -35,7 +35,7 @@ public class BullePool : MonoBehaviour
 
     private void Awake()
     {
-        TimerManager.Init();
+        TimerSystem.Init();
     }
 
     void Start()
@@ -52,7 +52,7 @@ public class BullePool : MonoBehaviour
         gObj.posEnd = posEnd;
         gObj.distance = Vector3.Distance(posStart, posEnd);
         gObj.lifeCycle = gObj.distance/(gObj.speed*Time.timeScale);//0.0667f * gObj.distance / (gObj.speed*
-        gObj.timerID = TimerManager.Register(gObj.lifeCycle, () => { bullPool.Release(gObj);}, null, false, true);
+        gObj.timerID = TimerSystem.Register(gObj.lifeCycle, () => { bullPool.Release(gObj);}, null, false, true);
         DrawTrajectoryBullet(gObj);
         SetBulleFlowEffect(gObj);
     }

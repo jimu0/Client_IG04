@@ -8,6 +8,7 @@ using UnityEngine.Diagnostics;
 public class GameMode : Singleton<GameMode>
 {
     public GameObject playerObj;
+    //public GameObject world;
     //public GameObject[];
 
     void Start()

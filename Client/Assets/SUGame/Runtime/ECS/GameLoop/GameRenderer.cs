@@ -15,7 +15,7 @@ public class GameRenderer
         
     }
 
-    public static void Interpolate(World world, float interpolating)
+    public static void Interpolate(GameMode gameMode, float interpolating)
     {
         //throw new System.NotImplementedException();
         //Debug.Log($"游戏世界模拟: 渲染");
