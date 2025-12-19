@@ -1,9 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
+
 
 
 /// <summary>
@@ -16,15 +15,17 @@ using UnityEngine.Serialization;
 public class GameStateManager : Singleton<GameStateManager>
 {
     [Header("游戏状态")]
-    public bool isGamePaused = false;
+    public bool isGamePaused;
 
     private const string CameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;//主镜头
     
-    private List<GameMode> gameMode = new();
     private GameInput gameInput = new();
+    private GameSimulation gameSimulation = new();
+    private GameRender gameRender = new();
     private float accum; //时间累加器
-    private float fixedDt = 1f;// / 60f; //游戏系统最小时间量
+    private const float FixedDt = 1f; // / 60f; //游戏系统最小时间量
+    private List<GameMode> gameMode = new();
     
     /// <summary>
     /// 单例初始化完成后的自定义初始化
@@ -100,7 +101,7 @@ public class GameStateManager : Singleton<GameStateManager>
     public void SetGamePaused(bool paused)
     {
         isGamePaused = paused;
-        Time.timeScale = paused ? 0f : 1f;
+        Time.timeScale = isGamePaused ? 0f : 1f;
         // if (paused)
         //     Debug.Log("[GameManager] 游戏已暂停");
         // else
@@ -131,18 +132,18 @@ public class GameStateManager : Singleton<GameStateManager>
     
     
     /// <summary>
-    /// 游戏主循环：采样输入 → 固定步长模拟 → 渲染插值
+    /// 游戏主循环：输入 → 模拟 → 渲染
     /// </summary>
     private void Update()
     {
         accum += Time.deltaTime;
-        while (accum >= fixedDt)
+        while (accum >= FixedDt)
         {
-            gameInput = TouchInputManager.Instance.Sample(); //输入
-            GameSimulation.Step(gameMode, gameInput, fixedDt); //模拟
-            accum -= fixedDt;
+            gameInput = TouchInputManager.Instance.Sample();
+            gameSimulation.Step(gameMode, gameInput, FixedDt);
+            accum -= FixedDt;
         }
-        GameRenderer.Interpolate(gameMode, accum / fixedDt); //渲染
+        gameRender.Interpolate(gameMode, accum / FixedDt);
     }
 }
 
