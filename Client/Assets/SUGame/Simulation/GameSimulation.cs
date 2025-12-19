@@ -31,12 +31,19 @@ public class GameSimulation
 
     private void Start()
     {
-        gameMode[0].CreateWorld(1);
+        //if (gameMode == null) gameMode = new List<GameMode>();
+        if(gameMode.Count<=0)gameMode.Add(new GameMode());
+        gameMode[0].CreateWorld(1,10);
+        gameMode[0].SetPlayerUnit(0, 0);
     }
     
     private void Step(float dt)
     {
-        a ++;
-        gameMode[0].worlds[0].maps[0].SetTile(0,0,a);
+        //a ++;
+        //gameMode[0].worlds[0].maps[0].SetTile(0,0,a);
+        //PlayerInput2Unit
+        gameMode[0].PlayerInput2Unit(gameInput, dt);
     }
+    
+    
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace SUGame.Simulation.Math
+namespace SUGame.Simulation
 {
     /// <summary>
     /// 2D 向量（Simulation Core）
@@ -45,8 +45,13 @@ namespace SUGame.Simulation.Math
         /// <returns>返回单位向量</returns>
         public Vec2 Normalized()
         {
-            float len = Length();
-            return len < 1e-6f ? Zero : new Vec2(x / len, y / len);
+            // float len = Length();
+            // return len < 1e-6f ? Zero : new Vec2(x / len, y / len);
+            
+            float lenSq = LengthSq();
+            if (lenSq < 1e-12f) return Zero;
+            float invLen = 1.0f / MathF.Sqrt(lenSq);
+            return new Vec2(x * invLen, y * invLen);
         }
 
         // ─────────────────────────────────────

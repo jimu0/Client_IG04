@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using SUGame.Runtime.Scripts.InputControl;
+using SUGame.Simulation;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -22,9 +23,9 @@ public class TouchInputManager : Singleton<TouchInputManager>
     
     private float screenSplitX = 0.5f; // 0~1，左边为移动控制区，右边为准心控制区
     //public float screenSplitY = 0.5f; // 0~1，预留上下
-    
-    private Vector2 moveInput;        // 用于角色移动的输入，范围 [-1, 1]
-    private Vector2 crosshairPos; // 准心在屏幕上的位置（标准化 0~1）
+
+    private Vec2 moveInput = Vec2.Zero;        // 用于角色移动的输入，范围 [-1, 1]
+    private Vec2 crosshairPos; // 准心在屏幕上的位置（标准化 0~1）
     private int? moveFingerId = null; // 当前负责移动的手指ID
     private int? crosshairFingerId = null; // 当前负责准心的手指ID
     
@@ -88,7 +89,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     public GameInput Sample()
     {
-        gameInput.touchInputManager = this;
+        //gameInput.touchInputManager = this;
         return gameInput;
     }
 
@@ -133,7 +134,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
                 else if (touch.phase == TouchPhase.Ended || touch.phase == TouchPhase.Canceled)
                 {
                     moveFingerId = null;
-                    moveInput = Vector2.zero;
+                    moveInput = Vec2.Zero;
                 }
                 //iPlayerController.UpdateMoveFingerStatus(moveFingerId);
             }
@@ -206,20 +207,23 @@ public class TouchInputManager : Singleton<TouchInputManager>
     void HandleMoveInput(Touch touch)
     {
         float maxRadius = 10f; // 摇杆最大距离
-        Vector2 offset = touch.screenPosition - touch.startScreenPosition;
-        float distance = offset.magnitude; // 计算偏移距离
+        Vector2 touchOffset = touch.screenPosition - touch.startScreenPosition;
+        Vec2 offset;
+        offset.x = touchOffset.x;
+        offset.y = touchOffset.y;
+        float distance = offset.Length(); // 计算偏移距离
         if (distance > 0)
         {
             if (distance > maxRadius)
             {
                 // 如果超出最大半径，则“拉回”到边界，保证方向不变，但长度合法
-                offset = offset.normalized * maxRadius;
+                offset = offset.Normalized() * maxRadius;
             }
-            moveInput = offset.normalized;
+            moveInput = offset.Normalized();
         }
         else
         {
-            moveInput = Vector2.zero;
+            moveInput = Vec2.Zero;
         }
 
         //Debug.Log($"moveInput:{moveInput.x},{moveInput.y}");
@@ -227,20 +231,25 @@ public class TouchInputManager : Singleton<TouchInputManager>
     
     void HandleCrosshairInput(Vector2 screenPos)
     {
-        crosshairPos = screenPos;
+        crosshairPos.x = screenPos.x;
+        crosshairPos.y = screenPos.y;
+        //crosshairPos = screenPos;
     }
     
     void UpdateMovement()
     {
-        if (iPlayerController != null)
-        {
-            iPlayerController.SetMoveValue(moveInput);
-            iPlayerController.OnMove(crosshairFingerId != null);
-        }
-        else
-        {
-            //Debug.LogWarning($"iPlayerController为空！无法执行移动控制");
-        }
+        // if (iPlayerController != null)
+        // {
+        //     iPlayerController.SetMoveValue(moveInput);
+        //     iPlayerController.OnMove(crosshairFingerId != null);
+        // }
+        // else
+        // {
+        //     //Debug.LogWarning($"iPlayerController为空！无法执行移动控制");
+        // }
+        if (gameInput == null) return;
+        gameInput.moveValue = moveInput;
+        gameInput.moving = crosshairFingerId != null;
     }
 
     void UpdateCrosshair()
@@ -251,7 +260,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
         const float bx = 3f;
         const float by = 3f;
         
-        Vector2 aimPos = Vector2.zero;
+        Vec2 aimPos = Vec2.Zero;
         aimPos.x = (crosshairPos.x - Screen.width * ax) * (1 + bx);
         aimPos.y = (crosshairPos.y - Screen.height * ay) * (1 + by);
         if (aimPos.x < 0)aimPos.x = 0;
@@ -259,15 +268,19 @@ public class TouchInputManager : Singleton<TouchInputManager>
         if (aimPos.y < 0)aimPos.y = 0;
         else if(aimPos.y > Screen.height)aimPos.y = Screen.height;
 
-        if (iPlayerController != null)
-        {
-            iPlayerController.SetAimValue(aimPos);
-            iPlayerController.OnAim(crosshairFingerId != null);
-        }
-        else
-        {
-            //Debug.LogWarning($"iPlayerController为空！无法执行准心控制");
-        }
+        // if (iPlayerController != null)
+        // {
+        //     iPlayerController.SetAimValue(aimPos);
+        //     iPlayerController.OnAim(crosshairFingerId != null);
+        // }
+        // else
+        // {
+        //     //Debug.LogWarning($"iPlayerController为空！无法执行准心控制");
+        // }
+        
+        if (gameInput == null) return;
+        gameInput.aimValue = aimPos;
+        gameInput.aiming = crosshairFingerId != null;
     }
 
     void UpdateActions()

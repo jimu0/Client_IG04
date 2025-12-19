@@ -1,7 +1,6 @@
 using System;
-using SUGame.Simulation.Math;
 
-namespace SUGame.Simulation.Spatial
+namespace SUGame.Simulation
 {
     /// <summary>
     /// 单位朝向（2D）

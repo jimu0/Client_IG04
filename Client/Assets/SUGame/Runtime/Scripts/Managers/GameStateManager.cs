@@ -24,7 +24,7 @@ public class GameStateManager : Singleton<GameStateManager>
     private GameSimulation gameSimulation = new();
     private GameRender gameRender = new();
     private float accum; //时间累加器
-    private const float FixedDt = 1f; // / 60f; //游戏系统最小时间量
+    private const float FixedDt = 1 / 60f; // / 60f; //游戏系统最小时间量
     private List<GameMode> gameMode = new();
     
     /// <summary>

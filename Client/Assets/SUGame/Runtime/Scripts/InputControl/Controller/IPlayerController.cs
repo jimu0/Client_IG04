@@ -1,9 +1,9 @@
-using UnityEngine;
+using SUGame.Simulation;
 
 public interface IPlayerController
 {
-    public void SetMoveValue(Vector2 v);
-    public void SetAimValue(Vector2 v);
+    public void SetMoveValue(Vec2 v);
+    public void SetAimValue(Vec2 v);
     //public void UpdateMoveFingerStatus(int? moveFinger);
     //public void UpdateCrosshairFingerStatus(int? crosshairFinger);
     public void OnMove(bool v);

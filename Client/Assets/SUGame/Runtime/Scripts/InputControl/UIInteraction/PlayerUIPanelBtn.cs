@@ -1,4 +1,5 @@
 using System;
+using SUGame.Runtime.Scripts.InputControl;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -18,7 +19,7 @@ public class PlayerUIPanelBtn : MonoBehaviour,IPointerDownHandler,IPointerUpHand
     private void Start()
     {
         iPlayerController = TouchInputManager.Instance.iPlayerController;
-        Ddd += iPlayerController.OnFire;
+        //Ddd += iPlayerController.OnFire;
     }
 
     // 当按钮被按下（鼠标/触摸按下）时调用

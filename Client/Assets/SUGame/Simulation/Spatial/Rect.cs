@@ -1,6 +1,6 @@
 using System;
 
-namespace SUGame.Simulation.Spatial
+namespace SUGame.Simulation
 {
     /// <summary>
     /// Axis-Aligned Rectangle（轴对齐矩形）
@@ -20,7 +20,10 @@ namespace SUGame.Simulation.Spatial
             halfWidth = width * 0.5f;
             halfHeight = height * 0.5f;
         }
-
+        // 常量
+        public static Rect Zero => new Rect(0f, 0f);
+        public static Rect One => new Rect(1f, 1f);
+        
         // ─────────────────────────────────────
         // 边界访问器（相对于中心）
         // ─────────────────────────────────────

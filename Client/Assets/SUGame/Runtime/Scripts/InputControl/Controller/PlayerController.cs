@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
+using SUGame.Simulation;
 //using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
@@ -114,8 +115,19 @@ namespace SUGame.Runtime.Scripts.InputControl
 
 
 
-        public void SetMoveValue(Vector2 v) { moveValue = v; }
-        public void SetAimValue(Vector2 v) { aimValue = v; }
+        public void SetMoveValue(Vec2 v)
+        {
+            moveValue.x = v.x;
+            moveValue.y = v.y;
+            //moveValue = v;
+        }
+
+        public void SetAimValue(Vec2 v)
+        {
+            aimValue.x = v.x;
+            aimValue.y = v.y;
+            //aimValue = v;
+        }
 
         public void OnMove(bool v)
         {

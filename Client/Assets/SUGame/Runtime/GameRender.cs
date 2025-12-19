@@ -1,15 +1,18 @@
 
 using System.Collections.Generic;
+using SUGame.Simulation;
 using UnityEngine;
 
 public class GameRender
 {
-    public void Interpolate(List<GameMode> gameMode, float interpolating)
+    private List<GameMode> gameMode;
+    public void Interpolate(List<GameMode> mode, float interpolating)
     {
+        gameMode = mode;
         if (gameMode.Count == 0 || gameMode[0].worlds.Count == 0 ||gameMode[0].worlds[0].maps.Count==0) return;
         DrawGizmos.Instance.gameMode = gameMode[0];
         
+        Debug.Log($"{gameMode[0].player.position}");
     }
-    
     
 }

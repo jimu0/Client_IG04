@@ -1,7 +1,6 @@
 using System;
-using SUGame.Simulation.Math;
 
-namespace SUGame.Simulation.Entity
+namespace SUGame.Simulation
 {
     /// <summary>
     /// 单位运动状态

@@ -1,18 +1,50 @@
 using System;
-using SUGame.Simulation.Math;
-using SUGame.Simulation.Spatial;
 
-namespace SUGame.Simulation.Entity
+namespace SUGame.Simulation
 {
     public struct Unit
     {
+        public int id;
         public Vec2 position;
         public Facing facing;
         public Rect hitbox;
         public Motion motion;
 
-        public Unit(Vec2 position, Facing facing, Rect hitbox, Motion motion)
+        public Unit(int id)
         {
+            this.id = id;
+            this.position = Vec2.Zero;
+            this.facing = Facing.FromVector(Vec2.Down);
+            this.hitbox = Rect.One;
+            this.motion = new Motion();
+        }
+        public Unit(int id, Vec2 position)
+        {
+            this.id = id;
+            this.position = position;
+            this.facing = Facing.FromVector(Vec2.Down);
+            this.hitbox = Rect.One;
+            this.motion = new Motion();
+        }        
+        public Unit(int id, Vec2 position, Facing facing)
+        {
+            this.id = id;
+            this.position = position;
+            this.facing = facing;
+            this.hitbox = Rect.One;
+            this.motion = new Motion();
+        }
+        public Unit(int id, Vec2 position, Facing facing, Rect hitbox)
+        {
+            this.id = id;
+            this.position = position;
+            this.facing = facing;
+            this.hitbox = hitbox;
+            this.motion = new Motion();
+        }
+        public Unit(int id, Vec2 position, Facing facing, Rect hitbox, Motion motion)
+        {
+            this.id = id;
             this.position = position;
             this.facing = facing;
             this.hitbox = hitbox;
@@ -32,6 +64,11 @@ namespace SUGame.Simulation.Entity
                 facing = Facing.FromVector(motion.velocity);
         }
 
+        /// <summary>
+        /// 相交判断
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
         public bool Intersects(Unit other)
         {
             Rect a = hitbox;
@@ -50,5 +87,6 @@ namespace SUGame.Simulation.Entity
         {
             return $"Unit(pos: {position}, facing: {facing}, motion: {motion}, hitbox: {hitbox})";
         }
+        
     }
 }

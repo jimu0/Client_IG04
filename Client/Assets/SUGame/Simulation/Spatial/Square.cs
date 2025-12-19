@@ -1,7 +1,6 @@
 using System;
-using SUGame.Simulation.Math;
 
-namespace SUGame.Simulation.Spatial
+namespace SUGame.Simulation
 {
     /// <summary>
     /// Axis-Aligned Square（轴对齐正方形）
