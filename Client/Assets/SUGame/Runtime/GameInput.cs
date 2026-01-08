@@ -2,7 +2,7 @@ using SUGame.Simulation;
 
 public class GameInput
 {
-    public TouchInputManager touchInputManager;
+    //public TouchInputManager touchInputManager;
 
 
     public Vec2 moveValue = Vec2.Zero;
@@ -10,6 +10,10 @@ public class GameInput
     public bool moving;
     public bool aiming;
     public bool firing;
+    
+    public bool attackTriggered;   // dt 内是否触发攻击
+    
+    
     //public bool hdSkillKey;
     
     //

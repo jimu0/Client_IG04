@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,6 +12,7 @@ using YooAsset;
 /// </summary>
 public class SplashController : MonoBehaviour
 {
+
     const string  SceneMainName = "SceneMain"; 
     [Header("启动设置")] [SerializeField] private float minSplashTime = 2f; // 最小启动时间
     [SerializeField] private bool skipResourceLoading = false; // 是否跳过资源加载（用于快速测试）
@@ -34,13 +36,17 @@ public class SplashController : MonoBehaviour
 
     private IEnumerator InitializationFlow()
     {
+        // 3. 初始化gameMode
+        //yield return EstablishingGameRules();
+            
         // 1. 先初始化资源系统（YooAsset、Package 等）
         yield return ResourceManager.Init(); // 等待初始化完成
 
         // 2. 初始化完成，再加载全局场景
         yield return LoadGlobalScene(); // 加载主场景、相机、其他逻辑
-    }
+        
 
+    }
 
     /// <summary>
     /// 加载全局场景
@@ -93,7 +99,6 @@ public class SplashController : MonoBehaviour
     {
         
         if (!CanProceedToMainScene() || !isTriggered) return;
-        GameStateManager.Instance.GenerateGameMod();
 
         //var packageManager = new PackageManager();
         // 示例：使用默认的本地资源包服务（你也可以换成远程下载、编辑器模拟等）

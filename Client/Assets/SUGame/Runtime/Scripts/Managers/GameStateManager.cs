@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using SUGame.Simulation;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
@@ -20,12 +22,56 @@ public class GameStateManager : Singleton<GameStateManager>
     private const string CameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;//主镜头
     
-    private GameInput gameInput = new();
-    private GameSimulation gameSimulation = new();
-    private GameRender gameRender = new();
+    private GameState gameState;
+    private GameInput gameInput;
+    private GameSimulate gameSimulate;
+    private GameRender gameRender;
     private float accum; //时间累加器
-    private const float FixedDt = 1 / 60f; // / 60f; //游戏系统最小时间量
-    private List<GameMode> gameMode = new();
+    private const float FixedDt = 1; // / 60f; //游戏系统最小时间量
+    //public List<GameMode> gameModes;
+
+    private InputBuffer inputBuffer = new();
+    private float simTime = 0f;     // 模拟世界时间
+
+    private void Start()
+    {
+        gameState = new GameState { gameModes = new List<GameMode>() };
+        GameMode mode = new();
+        mode.CreateWorld(1, 10);
+        mode.SetPlayerUnit(0, 0);
+        gameState.gameModes.Add(mode);
+        gameInput = TouchInputManager.Instance.Sample();
+        //gameInput = inputBuffer.Push();
+        gameSimulate = new GameSimulate();
+        gameRender = new GameRender();
+    }
+
+    /// <summary>
+    /// 游戏主循环
+    /// </summary>
+    private void Update()
+    {
+        
+        RawInputSample s = new()
+        {
+            time = simTime + accum,
+            move = TouchInputManager.Instance.moveInput,
+            //attackDown = Input.GetKeyDown(KeyCode.J)
+        };
+        inputBuffer.Push(s);
+        
+        accum += Time.deltaTime; //时间累加器
+        while (accum >= FixedDt) //最小dt
+        {
+            gameInput = InputResolver.Resolve(inputBuffer.Consume(simTime, simTime + FixedDt), inputBuffer.CurrentMove);
+            //gameInput = TouchInputManager.Instance.Sample(); //输入
+            gameSimulate.Step(gameState, gameInput, FixedDt); //模拟
+            simTime += FixedDt;
+            accum -= FixedDt;
+        }
+        gameRender.Interpolate(gameState, accum / FixedDt); //渲染
+    }
+    
     
     /// <summary>
     /// 单例初始化完成后的自定义初始化
@@ -83,16 +129,6 @@ public class GameStateManager : Singleton<GameStateManager>
         SetGamePaused(false);// 恢复游戏
     }
 
-    
-    /// <summary>
-    /// 创建游戏模式
-    /// </summary>
-    public void GenerateGameMod()
-    {
-        gameMode.Add(new GameMode());
-        //DontDestroyOnLoad(gameMod);
-    }
-
 
     /// <summary>
     /// 设置游戏暂停状态
@@ -131,19 +167,6 @@ public class GameStateManager : Singleton<GameStateManager>
     }
     
     
-    /// <summary>
-    /// 游戏主循环：输入 → 模拟 → 渲染
-    /// </summary>
-    private void Update()
-    {
-        accum += Time.deltaTime;
-        while (accum >= FixedDt)
-        {
-            gameInput = TouchInputManager.Instance.Sample();
-            gameSimulation.Step(gameMode, gameInput, FixedDt);
-            accum -= FixedDt;
-        }
-        gameRender.Interpolate(gameMode, accum / FixedDt);
-    }
+
 }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using SUGame.Simulation;
+using UnityEngine;
 //using Motion = SUGame.Simulation.Motion;
 using Random = System.Random;
 //using Rect = SUGame.Simulation.Rect;
@@ -13,6 +14,16 @@ public class GameMode
     public List<World> worlds = new();
     public Unit player;
     public World world;
+    
+    
+    
+    public void Step(GameInput input, float dt)
+    {
+        PlayerInput2Unit(input, dt);
+        // 未来：AI、规则、胜负判断
+    }
+    
+    
     /// <summary>
     /// 创建世界,临时
     /// </summary>
@@ -80,6 +91,7 @@ public class GameMode
 
     public void PlayerInput2Unit(GameInput input,float dt)
     {
+        Debug.Log($"input:{input.moveValue}");
         if (player.id <= 0) return;
         if (input.moveValue.Length() < 0.01f) return;
         player.motion.targetVelocity = input.moveValue * 3;

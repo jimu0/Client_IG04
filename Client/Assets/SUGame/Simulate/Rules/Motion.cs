@@ -52,6 +52,8 @@ namespace SUGame.Simulation
 
             // 应用加速度
             velocity += acceleration * dt + dv;
+            
+            //velocity = targetVelocity;
         }
 
         // ─────────────────────────────────────

@@ -54,7 +54,9 @@ namespace SUGame.Simulation
         public void Tick(float dt)
         {
             // 更新速度
-            motion.Tick(dt);
+            motion.velocity = motion.targetVelocity;
+            // 更新速度(物理方式)
+            //motion.Tick(dt);
 
             // 更新位置
             position += motion.velocity * dt;

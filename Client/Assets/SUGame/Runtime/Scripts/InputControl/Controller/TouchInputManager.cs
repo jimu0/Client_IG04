@@ -24,7 +24,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
     private float screenSplitX = 0.5f; // 0~1，左边为移动控制区，右边为准心控制区
     //public float screenSplitY = 0.5f; // 0~1，预留上下
 
-    private Vec2 moveInput = Vec2.Zero;        // 用于角色移动的输入，范围 [-1, 1]
+    public Vec2 moveInput = Vec2.Zero;        // 用于角色移动的输入，范围 [-1, 1]
     private Vec2 crosshairPos; // 准心在屏幕上的位置（标准化 0~1）
     private int? moveFingerId = null; // 当前负责移动的手指ID
     private int? crosshairFingerId = null; // 当前负责准心的手指ID
@@ -36,7 +36,8 @@ public class TouchInputManager : Singleton<TouchInputManager>
     public IPlayerController iPlayerController;
     private GraphicRaycaster raycaster;
 
-    private GameInput gameInput = new();
+    public GameInput gameInput = new GameInput();
+    public RawInputSample s = new RawInputSample();
     
     // 注册一个可交互对象
     // public static void RegisterInteractable(IPlayerController interactable)
@@ -89,7 +90,6 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     public GameInput Sample()
     {
-        //gameInput.touchInputManager = this;
         return gameInput;
     }
 
@@ -250,6 +250,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
         if (gameInput == null) return;
         gameInput.moveValue = moveInput;
         gameInput.moving = crosshairFingerId != null;
+        
     }
 
     void UpdateCrosshair()
