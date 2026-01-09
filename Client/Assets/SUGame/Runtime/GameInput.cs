@@ -1,4 +1,4 @@
-using SUGame.Simulation;
+using IGC.Engine;
 
 public class GameInput
 {

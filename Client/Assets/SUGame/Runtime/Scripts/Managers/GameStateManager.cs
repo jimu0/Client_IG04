@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using SUGame.Simulation;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 
@@ -23,15 +21,6 @@ public class GameStateManager : Singleton<GameStateManager>
     public GameObject cameraRoot;//主镜头
     
     private GameState gameState;
-    private GameInput gameInput;
-    private GameSimulate gameSimulate;
-    private GameRender gameRender;
-    private float accum; //时间累加器
-    private const float FixedDt = 1; // / 60f; //游戏系统最小时间量
-    //public List<GameMode> gameModes;
-
-    private InputBuffer inputBuffer = new();
-    private float simTime = 0f;     // 模拟世界时间
 
     private void Start()
     {
@@ -40,10 +29,6 @@ public class GameStateManager : Singleton<GameStateManager>
         mode.CreateWorld(1, 10);
         mode.SetPlayerUnit(0, 0);
         gameState.gameModes.Add(mode);
-        gameInput = TouchInputManager.Instance.Sample();
-        //gameInput = inputBuffer.Push();
-        gameSimulate = new GameSimulate();
-        gameRender = new GameRender();
     }
 
     /// <summary>
@@ -51,25 +36,8 @@ public class GameStateManager : Singleton<GameStateManager>
     /// </summary>
     private void Update()
     {
-        
-        RawInputSample s = new()
-        {
-            time = simTime + accum,
-            move = TouchInputManager.Instance.moveInput,
-            //attackDown = Input.GetKeyDown(KeyCode.J)
-        };
-        inputBuffer.Push(s);
-        
-        accum += Time.deltaTime; //时间累加器
-        while (accum >= FixedDt) //最小dt
-        {
-            gameInput = InputResolver.Resolve(inputBuffer.Consume(simTime, simTime + FixedDt), inputBuffer.CurrentMove);
-            //gameInput = TouchInputManager.Instance.Sample(); //输入
-            gameSimulate.Step(gameState, gameInput, FixedDt); //模拟
-            simTime += FixedDt;
-            accum -= FixedDt;
-        }
-        gameRender.Interpolate(gameState, accum / FixedDt); //渲染
+
+
     }
     
     

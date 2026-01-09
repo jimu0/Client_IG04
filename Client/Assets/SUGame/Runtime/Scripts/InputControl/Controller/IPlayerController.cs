@@ -1,4 +1,5 @@
 using SUGame.Simulation;
+using IGC.Engine;
 
 public interface IPlayerController
 {

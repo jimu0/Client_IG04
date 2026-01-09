@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
-using SUGame.Simulation;
+using IGC.Engine;
 //using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using SUGame.Simulation;
+using IGC.Engine;
 
 public class InputBuffer
 {

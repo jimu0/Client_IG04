@@ -1,7 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using CoreSim_IG04.SUGame;
+using IGC.Engine;
+using IGC.Game;
 using UnityEngine;
 
 public class Test_Sim : MonoBehaviour,ISim
@@ -14,11 +15,11 @@ public class Test_Sim : MonoBehaviour,ISim
         //Simulate.RegisterListener
     }
 
-    public void OnSimUpdat(in CoreSim_IG04.SUGame.GameState _state)
+    public void OnSimUpdat(in IGC.Game.GameState _state)
     {
-        if(n==CoreSim_IG04.SUGame.GameState.a)Debug.Log($"{name}:OnSimUpdat._state:{n}");
-        else if(n==CoreSim_IG04.SUGame.GameState.b)Debug.Log($"{name}:OnSimUpdat._state:{n}");
-        else if(n==CoreSim_IG04.SUGame.GameState.c)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        if(n==IGC.Game.GameState.a)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        else if(n==IGC.Game.GameState.b)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        else if(n==IGC.Game.GameState.c)Debug.Log($"{name}:OnSimUpdat._state:{n}");
         else Debug.Log($"{name}:OnSimUpdat._state:null");
     }
 }

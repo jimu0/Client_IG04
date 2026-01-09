@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using cfg;
 using Luban;
 using SUGame.Runtime.Scripts.InputControl;
-using SUGame.Simulation;
 using UnityEngine;
 using File = System.IO.File;
+using IGC.Engine;
 
 public class Pawn : Controller, IPlayerController
 {
