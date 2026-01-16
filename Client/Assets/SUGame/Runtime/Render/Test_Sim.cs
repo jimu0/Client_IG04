@@ -17,9 +17,12 @@ public class Test_Sim : MonoBehaviour,ISim
 
     public void OnSimUpdat(in IGC.Game.GameState _state)
     {
-        if(n==IGC.Game.GameState.a)Debug.Log($"{name}:OnSimUpdat._state:{n}");
-        else if(n==IGC.Game.GameState.b)Debug.Log($"{name}:OnSimUpdat._state:{n}");
-        else if(n==IGC.Game.GameState.c)Debug.Log($"{name}:OnSimUpdat._state:{n}");
-        else Debug.Log($"{name}:OnSimUpdat._state:null");
+        // if(n==IGC.Game.GameState.a)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        // else if(n==IGC.Game.GameState.b)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        // else if(n==IGC.Game.GameState.c)Debug.Log($"{name}:OnSimUpdat._state:{n}");
+        // else Debug.Log($"{name}:OnSimUpdat._state:null");
+        
+        Debug.Log($"g:{_state.GameMode?.budget}");
+        
     }
 }
