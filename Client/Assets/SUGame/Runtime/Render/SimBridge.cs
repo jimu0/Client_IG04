@@ -25,6 +25,7 @@ public class SimBridge : MonoBehaviour
     {
         //Debug.Log($"Time.accum:{Time.accum}");
         //Debug.Log($"Time.fixedDt:{Time.fixedDt}");
+        Igc.Simulate_Ready();
     }
 
     void Update()
