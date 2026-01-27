@@ -8,28 +8,29 @@ using IGC.Game;
 public class SimBridge : MonoBehaviour
 {
     
-    double accumulator;
-    static GameModeSettings gameModeSettings = new ();
-    static IGC.Game.GameMode gameMode = new IGC.Game.GameMode(gameModeSettings);
+    //double accumulator;
+    //static GameModeSettings gameModeSettings = new ();
+    //static IGC.Game.GameMode gameMode = new IGC.Game.GameMode(gameModeSettings);
 
     //List<InputSample> inputBuffer = new();
     private void Awake()
     {
-        foreach (MonoBehaviour mb in FindObjectsOfType<MonoBehaviour>(true))
-        {
-            if (mb is ISim listener) Igc.AddListener(listener);
-        }
+        Igc.Simulate_Awake();
+        // foreach (MonoBehaviour mb in FindObjectsOfType<MonoBehaviour>(true))
+        // {
+        //     if (mb is ISim listener) Igc.AddListener(listener);
+        // }
     }
 
     void Start()
     {
         //Debug.Log($"Time.accum:{Time.accum}");
         //Debug.Log($"Time.fixedDt:{Time.fixedDt}");
-        Igc.Simulate_Ready();
+        Igc.Simulate_Start();
     }
 
     void Update()
     {
-        Igc.Simulate();
+        Igc.Simulate_Update();
     }
 }
