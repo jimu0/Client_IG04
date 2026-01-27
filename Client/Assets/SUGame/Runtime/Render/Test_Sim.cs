@@ -20,8 +20,9 @@ public class Test_Sim : MonoBehaviour
     
     private void Update()
     {
-        
-        Debug.Log($"TestTxt:{Igc.GetState?.testTxt}");  
+        Debug.Log($"血液：{Igc.GetWorldState.tick}");
+        Debug.Log($"TestTxt:{Igc.GetWorldState.debugText}"); 
+        //Debug.Log($"测试：时间({_state.GameMode.pulse.time}),待运行Totem数量:({_state.GameMode.pulse.queue.Count}),待运行内容：({idString})");
     }
     
     private void Start()
