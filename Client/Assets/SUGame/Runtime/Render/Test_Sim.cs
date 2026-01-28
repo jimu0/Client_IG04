@@ -13,8 +13,6 @@ public class Test_Sim : MonoBehaviour
     private string name;
     public int n;
     private double td;
-    private Pulse pulse;
-    private Totem[] totems;
 
     //private  worldSnapshot;
     
