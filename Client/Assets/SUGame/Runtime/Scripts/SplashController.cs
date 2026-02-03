@@ -21,6 +21,8 @@ public class SplashController : MonoBehaviour
 
     private bool isGlobalSceneLoaded = false; //全局Scene是否已加载
     private bool isCameraLoaded = false; //主相机是否已加载
+    private bool isCanvasLoaded = false; //GUICanvas是否已加载
+    private bool isGameObjRootLoaded = false; //主游戏实例根是否已加载
     private bool isResourceLoadingComplete = false; // 资源加载是否完成
     private float splashStartTime; //用于判断最小启动时间是否已满足
     private bool isTriggered = true; // 用于监听是否已经触发过启动器
@@ -36,8 +38,6 @@ public class SplashController : MonoBehaviour
 
     private IEnumerator InitializationFlow()
     {
-        // 3. 初始化gameMode
-        //yield return EstablishingGameRules();
             
         // 1. 先初始化资源系统（YooAsset、Package 等）
         yield return ResourceManager.Init(); // 等待初始化完成
@@ -45,6 +45,11 @@ public class SplashController : MonoBehaviour
         // 2. 初始化完成，再加载全局场景
         yield return LoadGlobalScene(); // 加载主场景、相机、其他逻辑
         
+        //此时游戏基本环境已准备完毕
+        
+        // 3. 动态创建初始游戏实例，如果有
+        yield return PlaceGameObjects();
+
 
     }
 
@@ -53,46 +58,53 @@ public class SplashController : MonoBehaviour
     /// </summary>
     private IEnumerator LoadGlobalScene()
     {
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name != SceneMainName)
+        if (SceneManager.GetActiveScene().name != SceneMainName)
         {
             GameStateManager.Instance.LoadScene(SceneMainName);
-            //SceneManager.LoadScene("Global", LoadSceneMode.Additive);
             // 等待场景完全加载完成
-            yield return new WaitUntil(() => UnityEngine.SceneManagement.SceneManager.GetSceneByName(SceneMainName).isLoaded);
+            yield return new WaitUntil(() => SceneManager.GetSceneByName(SceneMainName).isLoaded);
         }
         isGlobalSceneLoaded = true;
         Debug.Log("[SplashController] 全局场景加载完成");
 
         // 加载主镜头
         GameStateManager.Instance.LoadGlobalCamera(() => isCameraLoaded = true);
-        // 开始资源加载流程
+        // 加载主游戏实例根
+        GameStateManager.Instance.LoadGlobalCanvas(() => isCanvasLoaded = true);
+        // 加载UI组件
+        GameStateManager.Instance.LoadGameObjRoot(() => isGameObjRootLoaded = true);
+        // 开始bd资源加载流程
         ResourceLoadingFlow();
-        
+
     }
 
 
     /// <summary>
-    /// 资源加载流程
+    /// bd资源加载流程
     /// </summary>
     private void ResourceLoadingFlow()
     {
         if (skipResourceLoading)
         {
-            //Debug.Log("[SplashController] 跳过资源加载");
+            Debug.Log("[SplashController] 跳过资源加载");
             isResourceLoadingComplete = true;
             return;
         }
         
-        // 等待资源管理器初始化
-        //yield return new WaitUntil(() => ResourceManager.Instance != null);
-        // 开始资源加载
+        // 预加载Shader、Scene
         ResourceManager.PreloadRes(null);
         
-        
-        //ResourceManager.Instance.SimulateResourceLoading();
         isResourceLoadingComplete = true;
     }
-    
+
+    private IEnumerator PlaceGameObjects()
+    {
+        //LoadResSync
+        yield return null;
+    }
+
+
+
 
 
     void Update()
@@ -101,7 +113,7 @@ public class SplashController : MonoBehaviour
         if (!CanProceedToMainScene() || !isTriggered) return;
 
         //var packageManager = new PackageManager();
-        // 示例：使用默认的本地资源包服务（你也可以换成远程下载、编辑器模拟等）
+        // 示例：使用默认的本地资源包服务（也可以换成远程下载、编辑器模拟等）
         //var locator = new DefaultPackageLocator();
         //packageManager.ChangeMainPackageLocator(locator);
         
@@ -110,10 +122,6 @@ public class SplashController : MonoBehaviour
         Destroy(gameObject); // 启动程序使命结束
     }
 
-
-    
-    
-    
     /// <summary>
     /// 检查是否可以开始玩游戏
     /// </summary>
@@ -126,11 +134,10 @@ public class SplashController : MonoBehaviour
         // 4. 最小启动时间已满足
         return isGlobalSceneLoaded && 
                isCameraLoaded &&
+               isCanvasLoaded &&
+               isGameObjRootLoaded &&
                isResourceLoadingComplete && 
                (Time.time - splashStartTime) >= minSplashTime;
     }
-
-    
-    
     
 }

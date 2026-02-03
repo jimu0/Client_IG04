@@ -5,7 +5,7 @@ using IGCEngine;
 
 public class Test_Sim : MonoBehaviour
 {
-
+    
     public GameObject player;
     public GameObject[] totems;
     private void Start()

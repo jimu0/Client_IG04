@@ -20,17 +20,22 @@ public class GameStateManager : Singleton<GameStateManager>
     public bool isGamePaused;
 
     private const string CameraPrefabPath = "CameraRoot"; // 主相机预制体路径
+    private const string CanvasPrefabPath = "Canvas"; // 主相机预制体路径
+    private const string EventSystemPrefabPath = "EventSystem"; // 主相机预制体路径
+    private const string GameObjectRootPrefabPath = "GameObjectRoot"; // 主相机预制体路径
     public GameObject cameraRoot;//主镜头
-    
-    private GameState gameState;
+    public GameObject CanvasRoot;//Canvas
+    public GameObject EventSystem;//EventSystem
+    public GameObject GameObjRoot;//游戏实例根
+    //private GameState gameState;
 
     private void Start()
     {
-        gameState = new GameState { gameModes = new List<GameMode>() };
-        GameMode mode = new();
-        mode.CreateWorld(1, 10);
-        mode.SetPlayerUnit(0, 0);
-        gameState.gameModes.Add(mode);
+        //gameState = new GameState { gameModes = new List<GameMode>() };
+        //GameMode mode = new();
+        //mode.CreateWorld(1, 10);
+        //mode.SetPlayerUnit(0, 0);
+        //gameState.gameModes.Add(mode);
     }
 
     /// <summary>
@@ -40,8 +45,7 @@ public class GameStateManager : Singleton<GameStateManager>
     {
         Vec2 v = TouchInputManager.Instance.gameInput.moveValue;
         Igc.Input.SetMove(v.x,v.y);
-        //Debug.Log($"{TouchInputManager.Instance.gameInput.moveValue}");
-        Debug.Log($"Test:{Igc.GetWorldState.playerState.position}");
+        //Debug.Log($"Test:{Igc.GetWorldState.playerState.position}");
     }
     
     
@@ -87,6 +91,41 @@ public class GameStateManager : Singleton<GameStateManager>
         cameraRoot = Instantiate(cameraPrefab); // 实例化相机预制体
         DontDestroyOnLoad(cameraRoot); // 设置为DontDestroyOnLoad，确保在所有场景中保持
         isCameraLoaded.Invoke();
+    }
+    public void LoadGlobalCanvas(Action isCanvasLoaded)
+    {
+        if (CanvasRoot != null) return;
+        if (EventSystem != null) return;
+        GameObject CanvasPrefab = Resources.Load<GameObject>(CanvasPrefabPath);
+        GameObject EventSystemPrefab = Resources.Load<GameObject>(EventSystemPrefabPath);
+        if (CanvasPrefab == null)
+        {
+            Debug.LogError($"[SplashController] 无法加载Canvas预制体: {CanvasPrefabPath}");
+            return;
+        }
+        if (EventSystemPrefab == null)
+        {
+            Debug.LogError($"[SplashController] 无法加载EventSystem预制体: {EventSystemPrefabPath}");
+            return;
+        }
+        CanvasRoot = Instantiate(CanvasPrefab);
+        EventSystem = Instantiate(EventSystemPrefab);
+        DontDestroyOnLoad(CanvasRoot);
+        DontDestroyOnLoad(EventSystem);
+        isCanvasLoaded.Invoke();
+    }
+    public void LoadGameObjRoot(Action isGameObjRootLoaded)
+    {
+        if (GameObjRoot != null) return;
+        GameObject GameObjRootPrefab = Resources.Load<GameObject>(GameObjectRootPrefabPath);
+        if (GameObjRootPrefab == null)
+        {
+            Debug.LogError($"[SplashController] 无法加载GameObjectRoot预制体: {GameObjectRootPrefabPath}");
+            return;
+        }
+        GameObjRoot = Instantiate(GameObjRootPrefab);
+        DontDestroyOnLoad(GameObjRoot);
+        isGameObjRootLoaded.Invoke();
     }
     
     /// <summary>

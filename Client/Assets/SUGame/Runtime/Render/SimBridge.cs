@@ -5,6 +5,7 @@ public class SimBridge : MonoBehaviour
 {
     private void Awake()
     {
+        DontDestroyOnLoad(this);
         Igc.Simulate_Awake();
     }
     void Start()

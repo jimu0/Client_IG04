@@ -112,7 +112,7 @@ public class ResourceManager
         foreach (var item in assetInfos)
         {
             var res = package.LoadAssetSync<Object>(item.Address);
-            Debug.Log("预加载 Shader:" + item.Address);
+            //Debug.Log("预加载 Shader:" + item.Address);
             if (item.AssetType == typeof(Shader))
                 m_dicShaders.TryAdd(item.Address, res.AssetObject as Shader);
         }
@@ -122,10 +122,10 @@ public class ResourceManager
         foreach (var item in assetInfos2)
         {
             var res = package.LoadAssetSync<Object>(item.Address);
-            Debug.Log("预加载 " + item.Address);
+            //Debug.Log("预加载 " + item.Address);
             m_dicLevelUnit.TryAdd(item.Address, res.AssetObject);
         }
-        
+        Debug.Log("预加载bd Shader、Preload");
         next?.Invoke();
     }
 
