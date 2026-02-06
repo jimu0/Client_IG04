@@ -5,20 +5,21 @@ using IGC.Engine.Astrophysics;
 
 public class RelativisticSolarDemo : MonoBehaviour
 {
-    public Transform blackHoleView;
-    public double mass0 = 10000.0;
-    public double radius0 = 3.0;
-    public double angularVelocity0 = 0.0;
-    public Transform sunView;
-    public double mass1 = 10.0;
-    public double radius1 = 1.0;
-    public double angularVelocity1 = 0.0;
-    public Vector2 velocity1 = new Vector2(0, 2.2f);
-    public Transform earthView;
-    public double mass2 = 1.0;
-    public double radius2 = 0.5;
-    public double angularVelocity2 = 0.0;
-    public Vector2 velocity2 = new Vector2(0, 1.8f);
+    [System.Serializable]
+    public class BodyConfig
+    {
+        public int id;
+        public Transform view;
+        public double mass = 1.0;
+        public double radius = 1.0;
+        public double angularVelocity = 0.0;
+        public Vector2 velocity = Vector2.zero;
+        public bool useViewPosition = true;
+        public Vector2 position = Vector2.zero;
+    }
+
+    public List<BodyConfig> bodyConfigs = new List<BodyConfig>();
+    public int anchorId = 0;
 
     public float speed = 1;
 
@@ -33,46 +34,30 @@ public class RelativisticSolarDemo : MonoBehaviour
 
     void Start()
     {
-        pos1 = new Vector2(sunView.position.x, sunView.position.z);
-        pos2 = new Vector2(earthView.position.x, earthView.position.z);
-
         simTime = new SimTime(0.0);
 
         bodies = new List<Body>();
+        for (int i = 0; i < bodyConfigs.Count; i++)
+        {
+            var config = bodyConfigs[i];
+            Vector2 position2D = config.position;
+            if (config.useViewPosition && config.view != null)
+            {
+                position2D = new Vector2(config.view.position.x, config.view.position.z);
+            }
 
-        var blackHole = new Body(
-            id: 0,
-            mass: mass0,
-            position: Vec2Double.Zero,
-            velocity: Vec2Double.Zero
-        );
-        blackHole.radius = radius0;
-        blackHole.angularVelocity = angularVelocity0;
-        bodies.Add(blackHole);
+            var body = new Body(
+                id: config.id,
+                mass: config.mass,
+                position: new Vec2Double(position2D.x, position2D.y),
+                velocity: new Vec2Double(config.velocity.x, config.velocity.y)
+            );
+            body.radius = config.radius;
+            body.angularVelocity = config.angularVelocity;
+            bodies.Add(body);
 
-        var sun = new Body(
-            id: 1,
-            mass: mass1,
-            position: new Vec2Double(pos1.x, pos1.y),
-            velocity: new Vec2Double(velocity1.x, velocity1.y)
-        );
-        sun.radius = radius1;
-        sun.angularVelocity = angularVelocity1;
-        bodies.Add(sun);
-
-        var earth = new Body(
-            id: 2,
-            mass: mass2,
-            position: new Vec2Double(pos2.x, pos2.y),
-            velocity: new Vec2Double(velocity2.x, velocity2.y)
-        );
-        earth.radius = radius2;
-        earth.angularVelocity = angularVelocity2;
-        bodies.Add(earth);
-
-        RegisterView(0, blackHoleView);
-        RegisterView(1, sunView);
-        RegisterView(2, earthView);
+            RegisterView(config.id, config.view);
+        }
     }
 
     void FixedUpdate()
@@ -83,7 +68,7 @@ public class RelativisticSolarDemo : MonoBehaviour
         // Step simulation (may merge bodies on collision) with a fixed dt.
         while (speedAccumulator >= fixedDt)
         {
-            WorldDynamics.Step(bodies, ref simTime, fixedDt, anchorId: 0);
+            WorldDynamics.Step(bodies, ref simTime, fixedDt, anchorId: anchorId);
             speedAccumulator -= fixedDt;
         }
 
@@ -131,7 +116,7 @@ public class RelativisticSolarDemo : MonoBehaviour
             (float)body.position.y
         );
         float yawDegrees = (float)(body.rotation * Mathf.Rad2Deg);
-        view.rotation = Quaternion.Euler(0f, yawDegrees, 0f);
+        view.rotation = Quaternion.Euler(0f, -yawDegrees, 0f);
 
         if (baseScaleById.TryGetValue(body.id, out var baseScale))
         {

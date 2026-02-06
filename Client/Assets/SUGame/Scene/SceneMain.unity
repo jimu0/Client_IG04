@@ -421,7 +421,7 @@ PrefabInstance:
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.84
+      value: -9.4
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
@@ -431,7 +431,7 @@ PrefabInstance:
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -31.43
+      value: -28.3
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
@@ -772,20 +772,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84162052321cc6a4b8ffe83245d1884d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackHoleView: {fileID: 274713095}
-  mass0: 20000
-  radius0: 3
-  angularVelocity0: 0
-  sunView: {fileID: 474135727}
-  mass1: 1000
-  radius1: 1
-  angularVelocity1: 0
-  velocity1: {x: -20.6, y: 9.5}
-  earthView: {fileID: 845202908}
-  mass2: 0.1
-  radius2: 0.5
-  angularVelocity2: 0
-  velocity2: {x: -0.34, y: -1.45}
+  bodyConfigs:
+  - id: 0
+    view: {fileID: 274713095}
+    mass: 100000
+    radius: 1
+    angularVelocity: 0
+    velocity: {x: 0, y: 0}
+    useViewPosition: 1
+    position: {x: 0, y: 0}
+  - id: 1
+    view: {fileID: 474135727}
+    mass: 1000
+    radius: 3
+    angularVelocity: 0
+    velocity: {x: -59.9, y: 3.55}
+    useViewPosition: 1
+    position: {x: 0, y: 0}
+  - id: 2
+    view: {fileID: 845202908}
+    mass: 100
+    radius: 1
+    angularVelocity: 0
+    velocity: {x: 5.4, y: 0}
+    useViewPosition: 1
+    position: {x: 0, y: 0}
+  anchorId: 0
   speed: 1
 --- !u!4 &1719118809
 Transform:
