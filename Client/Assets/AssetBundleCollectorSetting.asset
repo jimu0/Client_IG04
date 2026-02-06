@@ -132,7 +132,7 @@ MonoBehaviour:
       - CollectPath: Assets/BundleResources/Art
         CollectorGUID: 9c42b729f2aa92f4c9952aab59b64ffa
         CollectorType: 0
-        AddressRuleName: AddressByFolderAndFileName
+        AddressRuleName: AddressByFileName
         PackRuleName: PackDirectory
         FilterRuleName: CollectAll
         AssetTags: 

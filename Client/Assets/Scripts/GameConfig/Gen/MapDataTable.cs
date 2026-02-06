@@ -27,7 +27,7 @@ public partial class MapDataTable
             MapDataCfg _v;
             _v = MapDataCfg.DeserializeMapDataCfg(_buf);
             _dataList.Add(_v);
-            _dataMap.Add(_v.X, _v);
+            _dataMap.Add(_v.Id, _v);
         }
     }
 

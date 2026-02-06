@@ -16,10 +16,10 @@ public sealed partial class MapDataCfg : Luban.BeanBase
 {
     public MapDataCfg(ByteBuf _buf) 
     {
+        Id = _buf.ReadInt();
         X = _buf.ReadInt();
         Y = _buf.ReadInt();
-        Z = _buf.ReadInt();
-        Id = _buf.ReadString();
+        TileId = _buf.ReadInt();
     }
 
     public static MapDataCfg DeserializeMapDataCfg(ByteBuf _buf)
@@ -27,10 +27,10 @@ public sealed partial class MapDataCfg : Luban.BeanBase
         return new MapDataCfg(_buf);
     }
 
+    public readonly int Id;
     public readonly int X;
     public readonly int Y;
-    public readonly int Z;
-    public readonly string Id;
+    public readonly int TileId;
    
     public const int __ID__ = -741978242;
     public override int GetTypeId() => __ID__;
@@ -42,10 +42,10 @@ public sealed partial class MapDataCfg : Luban.BeanBase
     public override string ToString()
     {
         return "{ "
+        + "id:" + Id + ","
         + "x:" + X + ","
         + "y:" + Y + ","
-        + "z:" + Z + ","
-        + "id:" + Id + ","
+        + "tileId:" + TileId + ","
         + "}";
     }
 }
