@@ -95,7 +95,7 @@ public class RelativisticSolarDemo : MonoBehaviour
         }
 
         SyncViews();
-        SyncTrajectories();
+        //SyncTrajectories();
     }
 
     void RegisterView(int id, Transform view)
@@ -181,7 +181,7 @@ public class RelativisticSolarDemo : MonoBehaviour
         if (baseScaleById.TryGetValue(body.id, out var baseScale))
         {
             float radius = Mathf.Max(0.0f, (float)body.radius);
-            view.localScale = baseScale * radius;
+            view.localScale = baseScale * (radius * 2);
         }
     }
 
@@ -286,7 +286,8 @@ public class RelativisticSolarDemo : MonoBehaviour
                 continue;
             }
 
-            if (!configById.TryGetValue(body.id, out var config) || config.trajectoryBuffer == null)
+            var buffer = GetTrajectoryBuffer(body);
+            if (buffer == null)
             {
                 if (trajectoryById.TryGetValue(body.id, out var missingLine) && missingLine != null)
                 {
@@ -294,11 +295,10 @@ public class RelativisticSolarDemo : MonoBehaviour
                 }
                 continue;
             }
-            if (config.trajectoryBuffer == null) continue;
 
             var points = new List<Vector3>();
             int index = 0;
-            foreach (var sample in config.trajectoryBuffer.Samples)
+            foreach (var sample in buffer.Samples)
             {
                 if ((index++ % stride) != 0) continue;
                 points.Add(ToWorldPosition(sample.position));
@@ -341,6 +341,39 @@ public class RelativisticSolarDemo : MonoBehaviour
     Vector3 ToWorldPosition(Vec2 position)
     {
         return new Vector3(position.x, 0f, position.y);
+    }
+
+    TrajectoryBuffer GetTrajectoryBuffer(Body body)
+    {
+        var type = body.GetType();
+        var property = type.GetProperty("trajectoryBuffer")
+            ?? type.GetProperty("TrajectoryBuffer")
+            ?? type.GetProperty("trajectory")
+            ?? type.GetProperty("Trajectory")
+            ?? type.GetProperty("history")
+            ?? type.GetProperty("History");
+        if (property != null)
+        {
+            return property.GetValue(body, null) as TrajectoryBuffer;
+        }
+
+        var field = type.GetField("trajectoryBuffer")
+            ?? type.GetField("TrajectoryBuffer")
+            ?? type.GetField("trajectory")
+            ?? type.GetField("Trajectory")
+            ?? type.GetField("history")
+            ?? type.GetField("History");
+        if (field != null)
+        {
+            return field.GetValue(body) as TrajectoryBuffer;
+        }
+
+        if (configById.TryGetValue(body.id, out var config))
+        {
+            return config.trajectoryBuffer;
+        }
+
+        return null;
     }
 
     bool IsMergedBody(Body body)
