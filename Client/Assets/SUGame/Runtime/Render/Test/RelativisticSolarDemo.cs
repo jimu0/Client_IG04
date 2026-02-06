@@ -19,36 +19,20 @@ public class RelativisticSolarDemo : MonoBehaviour
         public bool showLabel = true;
         public Vector3 labelOffset = new Vector3(0f, 1f, 0f);
         public int labelFontSize = 16;
-        public bool showRange = true;
-        public int rangeSegments = 64;
-        public float rangeWidth = 0.05f;
-        public TrajectoryBuffer trajectoryBuffer;
     }
 
     public List<BodyConfig> bodyConfigs = new List<BodyConfig>();
     public int anchorId = 0;
-    public Material rangeMaterial;
-    public Color rangeColor = Color.cyan;
-    public bool showTrajectories = true;
-    public int trajectoryStride = 1;
-    public int trajectoryMaxSamples = 1024;
-    public float trajectoryWidth = 0.05f;
-    public Material trajectoryMaterial;
-    public Color trajectoryColor = Color.yellow;
 
-    public float speed = 1;
+    [Range(0f, 100f)]public float speed = 16f;
 
     private List<Body> bodies;
     private SimTime simTime;
     private readonly Dictionary<int, Transform> viewById = new Dictionary<int, Transform>();
     private readonly Dictionary<int, Vector3> baseScaleById = new Dictionary<int, Vector3>();
     private readonly Dictionary<int, TextMesh> labelById = new Dictionary<int, TextMesh>();
-    private readonly Dictionary<int, LineRenderer> rangeById = new Dictionary<int, LineRenderer>();
-    private readonly Dictionary<int, LineRenderer> trajectoryById = new Dictionary<int, LineRenderer>();
     private readonly Dictionary<int, BodyConfig> configById = new Dictionary<int, BodyConfig>();
     private double speedAccumulator = 0.0;
-    private Material runtimeRangeMaterial;
-    private Material runtimeTrajectoryMaterial;
     private readonly HashSet<int> activeBodyIds = new HashSet<int>();
 
     void Start()
@@ -63,7 +47,7 @@ public class RelativisticSolarDemo : MonoBehaviour
             Vector2 position2D = config.position;
             if (config.useViewPosition && config.view != null)
             {
-                position2D = new Vector2(config.view.position.x, config.view.position.z);
+                position2D = new Vector2(config.view.position.x, config.view.position.y);
             }
 
             var body = new Body(
@@ -78,24 +62,28 @@ public class RelativisticSolarDemo : MonoBehaviour
 
             RegisterView(config.id, config.view);
             RegisterLabel(config);
-            RegisterRange(config);
         }
     }
 
     void FixedUpdate()
     {
-        double fixedDt = Time.fixedDeltaTime;
+        double fixedDt = 0.001f * speed;
         speedAccumulator += fixedDt * speed;
-
-        // Step simulation (may merge bodies on collision) with a fixed dt.
-        while (speedAccumulator >= fixedDt)
+        
+        if (!WTime.Tick()) return;
+        int steps = WTime.Advance();
+        for (int i = 0; i < steps; i++)
         {
             WorldDynamics.Step(bodies, ref simTime, fixedDt, anchorId: anchorId);
-            speedAccumulator -= fixedDt;
+            // while (speedAccumulator >= fixedDt)
+            // {
+            //     WorldDynamics.Step(bodies, ref simTime, fixedDt, anchorId: anchorId);
+            //     speedAccumulator -= fixedDt;
+            // }
         }
 
+
         SyncViews();
-        //SyncTrajectories();
     }
 
     void RegisterView(int id, Transform view)
@@ -125,7 +113,6 @@ public class RelativisticSolarDemo : MonoBehaviour
             {
                 SyncLabel(body);
             }
-            SyncRange(body);
         }
 
         foreach (var kvp in viewById)
@@ -155,15 +142,6 @@ public class RelativisticSolarDemo : MonoBehaviour
             }
         }
 
-        foreach (var kvp in rangeById)
-        {
-            if (kvp.Value == null) continue;
-            bool isActive = activeBodyIds.Contains(kvp.Key);
-            if (kvp.Value.gameObject.activeSelf != isActive)
-            {
-                kvp.Value.gameObject.SetActive(isActive);
-            }
-        }
     }
 
     void SyncView(Transform view, Body body)
@@ -172,11 +150,11 @@ public class RelativisticSolarDemo : MonoBehaviour
 
         view.position = new Vector3(
             (float)body.position.x,
-            0f,
-            (float)body.position.y
+            (float)body.position.y,
+            0f
         );
         float yawDegrees = (float)(body.rotation * Mathf.Rad2Deg);
-        view.rotation = Quaternion.Euler(0f, -yawDegrees, 0f);
+        view.rotation = Quaternion.Euler(0f, 0f, -yawDegrees);
 
         if (baseScaleById.TryGetValue(body.id, out var baseScale))
         {
@@ -198,22 +176,6 @@ public class RelativisticSolarDemo : MonoBehaviour
         labelById[config.id] = textMesh;
     }
 
-    void RegisterRange(BodyConfig config)
-    {
-        if (!config.showRange) return;
-
-        var rangeObject = new GameObject("BodyRange_" + config.id);
-        rangeObject.transform.SetParent(transform, false);
-        var line = rangeObject.AddComponent<LineRenderer>();
-        line.loop = true;
-        line.useWorldSpace = true;
-        line.widthMultiplier = config.rangeWidth;
-        line.positionCount = Mathf.Max(3, config.rangeSegments);
-        line.material = GetRangeMaterial();
-        line.startColor = rangeColor;
-        line.endColor = rangeColor;
-        rangeById[config.id] = line;
-    }
 
     void SyncLabel(Body body)
     {
@@ -224,7 +186,7 @@ public class RelativisticSolarDemo : MonoBehaviour
             label.fontSize = config.labelFontSize;
         }
 
-        var position = new Vector3((float)body.position.x, 0f, (float)body.position.y);
+        var position = new Vector3((float)body.position.x, (float)body.position.y, 0f);
         var offset = Vector3.up;
         if (configById.TryGetValue(body.id, out var cfg))
         {
@@ -241,139 +203,12 @@ public class RelativisticSolarDemo : MonoBehaviour
             velocity.y
         );
 
-        label.transform.rotation = Quaternion.Euler(90f, 0f, 0f);
-    }
-
-    void SyncRange(Body body)
-    {
-        if (!rangeById.TryGetValue(body.id, out var line) || line == null) return;
-
-        int segments = line.positionCount;
-        float radius = Mathf.Max(0.0f, (float)body.radius);
-        if (radius <= 0.0f)
-        {
-            line.enabled = false;
-            return;
-        }
-        line.enabled = true;
-
-        var center = new Vector3((float)body.position.x, 0f, (float)body.position.y);
-        for (int i = 0; i < segments; i++)
-        {
-            float angle = (Mathf.PI * 2f * i) / segments;
-            float x = Mathf.Cos(angle) * radius;
-            float z = Mathf.Sin(angle) * radius;
-            line.SetPosition(i, center + new Vector3(x, 0f, z));
-        }
-    }
-
-    void SyncTrajectories()
-    {
-        if (!showTrajectories) return;
-
-        int stride = Mathf.Max(1, trajectoryStride);
-        int maxSamples = Mathf.Max(2, trajectoryMaxSamples);
-
-        for (int i = 0; i < bodies.Count; i++)
-        {
-            var body = bodies[i];
-            if (!activeBodyIds.Contains(body.id))
-            {
-                if (trajectoryById.TryGetValue(body.id, out var inactiveLine) && inactiveLine != null)
-                {
-                    inactiveLine.gameObject.SetActive(false);
-                }
-                continue;
-            }
-
-            var buffer = GetTrajectoryBuffer(body);
-            if (buffer == null)
-            {
-                if (trajectoryById.TryGetValue(body.id, out var missingLine) && missingLine != null)
-                {
-                    missingLine.gameObject.SetActive(false);
-                }
-                continue;
-            }
-
-            var points = new List<Vector3>();
-            int index = 0;
-            foreach (var sample in buffer.Samples)
-            {
-                if ((index++ % stride) != 0) continue;
-                points.Add(ToWorldPosition(sample.position));
-                if (points.Count >= maxSamples)
-                {
-                    break;
-                }
-            }
-
-            var line = GetTrajectoryLine(body.id);
-            if (points.Count < 2)
-            {
-                line.gameObject.SetActive(false);
-                continue;
-            }
-
-            line.gameObject.SetActive(true);
-            line.positionCount = points.Count;
-            line.SetPositions(points.ToArray());
-        }
-    }
-
-    LineRenderer GetTrajectoryLine(int id)
-    {
-        if (trajectoryById.TryGetValue(id, out var existing) && existing != null) return existing;
-
-        var lineObject = new GameObject("BodyTrajectory_" + id);
-        lineObject.transform.SetParent(transform, false);
-        var line = lineObject.AddComponent<LineRenderer>();
-        line.loop = false;
-        line.useWorldSpace = true;
-        line.widthMultiplier = trajectoryWidth;
-        line.material = GetTrajectoryMaterial();
-        line.startColor = trajectoryColor;
-        line.endColor = trajectoryColor;
-        trajectoryById[id] = line;
-        return line;
+        label.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     Vector3 ToWorldPosition(Vec2 position)
     {
-        return new Vector3(position.x, 0f, position.y);
-    }
-
-    TrajectoryBuffer GetTrajectoryBuffer(Body body)
-    {
-        var type = body.GetType();
-        var property = type.GetProperty("trajectoryBuffer")
-            ?? type.GetProperty("TrajectoryBuffer")
-            ?? type.GetProperty("trajectory")
-            ?? type.GetProperty("Trajectory")
-            ?? type.GetProperty("history")
-            ?? type.GetProperty("History");
-        if (property != null)
-        {
-            return property.GetValue(body, null) as TrajectoryBuffer;
-        }
-
-        var field = type.GetField("trajectoryBuffer")
-            ?? type.GetField("TrajectoryBuffer")
-            ?? type.GetField("trajectory")
-            ?? type.GetField("Trajectory")
-            ?? type.GetField("history")
-            ?? type.GetField("History");
-        if (field != null)
-        {
-            return field.GetValue(body) as TrajectoryBuffer;
-        }
-
-        if (configById.TryGetValue(body.id, out var config))
-        {
-            return config.trajectoryBuffer;
-        }
-
-        return null;
+        return new Vector3(position.x, position.y, 0f);
     }
 
     bool IsMergedBody(Body body)
@@ -390,23 +225,4 @@ public class RelativisticSolarDemo : MonoBehaviour
         }
     }
 
-    Material GetRangeMaterial()
-    {
-        if (rangeMaterial != null) return rangeMaterial;
-        if (runtimeRangeMaterial == null)
-        {
-            runtimeRangeMaterial = new Material(Shader.Find("Sprites/Default"));
-        }
-        return runtimeRangeMaterial;
-    }
-
-    Material GetTrajectoryMaterial()
-    {
-        if (trajectoryMaterial != null) return trajectoryMaterial;
-        if (runtimeTrajectoryMaterial == null)
-        {
-            runtimeTrajectoryMaterial = new Material(Shader.Find("Sprites/Default"));
-        }
-        return runtimeTrajectoryMaterial;
-    }
 }
