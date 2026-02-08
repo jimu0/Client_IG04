@@ -281,6 +281,21 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -334,6 +349,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u9ED1\u6D1E"
       objectReference: {fileID: 0}
+    - target: {fileID: 4094405404991543159, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4317077438836317027, guid: c6f41f0d9d9867e45b2a6b26f9c86eed,
+        type: 3}
     - target: {fileID: 6277764626839949699, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -360,13 +381,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.8
+      value: -295
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -33.9
+      value: -316
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
@@ -413,6 +449,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u5730\u7403"
       objectReference: {fileID: 0}
+    - target: {fileID: 4094405404991543159, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -7073192788837932416, guid: c86191142e5fe504484640ec6f3cd4fd,
+        type: 3}
     - target: {fileID: 6277764626839949699, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -551,13 +593,28 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.44
+      value: -140.7
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -29.38
+      value: -182.1
       objectReference: {fileID: 0}
     - target: {fileID: 3409263036969065188, guid: 3834d874718f52e43a125c1b457a9ea6,
         type: 3}
@@ -604,6 +661,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: "\u592A\u9633"
       objectReference: {fileID: 0}
+    - target: {fileID: 4094405404991543159, guid: 3834d874718f52e43a125c1b457a9ea6,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -7394433753111614136, guid: dfd72ebe5b08f9a4cac3a5ae1d20adfb,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -685,8 +748,8 @@ MonoBehaviour:
   bodyConfigs:
   - id: 0
     view: {fileID: 274713095}
-    mass: 100000
-    radius: 1
+    mass: 1000000
+    radius: 10
     angularVelocity: 0
     velocity: {x: 0, y: 0}
     useViewPosition: 1
@@ -694,13 +757,10 @@ MonoBehaviour:
     showLabel: 1
     labelOffset: {x: 0, y: 1, z: 0}
     labelFontSize: 16
-    showRange: 1
-    rangeSegments: 64
-    rangeWidth: 0.1
   - id: 1
     view: {fileID: 474135727}
     mass: 1000
-    radius: 3
+    radius: 10
     angularVelocity: 0
     velocity: {x: -59.9, y: 3.55}
     useViewPosition: 1
@@ -708,13 +768,10 @@ MonoBehaviour:
     showLabel: 1
     labelOffset: {x: 0, y: 1, z: 0}
     labelFontSize: 16
-    showRange: 1
-    rangeSegments: 64
-    rangeWidth: 0.1
   - id: 2
     view: {fileID: 845202908}
     mass: 71.6
-    radius: 1
+    radius: 2
     angularVelocity: 0
     velocity: {x: -45.6, y: -2.35}
     useViewPosition: 1
@@ -722,18 +779,7 @@ MonoBehaviour:
     showLabel: 1
     labelOffset: {x: 0, y: 1, z: 0}
     labelFontSize: 16
-    showRange: 1
-    rangeSegments: 64
-    rangeWidth: 0.1
   anchorId: 0
-  rangeMaterial: {fileID: 0}
-  rangeColor: {r: 0, g: 1, b: 1, a: 1}
-  showTrajectories: 1
-  trajectoryStride: 1
-  trajectoryMaxSamples: 1024
-  trajectoryWidth: 0.02
-  trajectoryMaterial: {fileID: 0}
-  trajectoryColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   speed: 16
 --- !u!4 &1719118809
 Transform:
