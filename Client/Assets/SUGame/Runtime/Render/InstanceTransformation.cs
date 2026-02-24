@@ -16,7 +16,7 @@ public class InstanceTransformation : MonoBehaviour
     private readonly List<GameObject> newGObjs;
     private GameObject TotemObjRoot;
 
-    private static GameObject[] WorldTiles = new GameObject[Igc.GetWorldState.tiles.Length];
+    //private static GameObject[] WorldTiles = new GameObject[Igc.GetWorldState.tiles.Length];
     
     
     
