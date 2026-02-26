@@ -24,7 +24,7 @@ public class Test_Sim : MonoBehaviour
         //Debug.Log($"血液：{Igc.GetWorldState.tick}");
         //Debug.Log($"TestTxt:{Igc.GetWorldState.debugText}"); 
 
-        Debug.Log($"TestPlayer{Igc.GetWorldState.playerState.position}");
+        Debug.Log($"TestPlayer{Igc.GetWorldState.unitStates[0].position}");
 
     }
 

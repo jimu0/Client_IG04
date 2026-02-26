@@ -25,8 +25,6 @@ public class InstanceTransformation : MonoBehaviour
     {
         state = Igc.GetWorldState;
         StartGObjs();
-        GameObject p = ResourceManager.LoadResSync<GameObject>("P_Player@Art_Pawn_Player");
-        player = Instantiate(p, new RectTransform(), false);
         tileGrid = ResourceManager.LoadResSync<GameObject>("P_TileGrid@Art_Pawn_Grid");
         
         StartCreateWorldTiles();
@@ -41,19 +39,20 @@ public class InstanceTransformation : MonoBehaviour
     {
         state = Igc.GetWorldState;
         UpdateGObjsTsf(state);
-        player.transform.position = GObjs[0].transform.position;
     }
 
 
     void StartGObjs()
     {
         TotemObjRoot = new GameObject($"TotemObjRoot");
+        GameObject playerPrefab = ResourceManager.LoadResSync<GameObject>("P_Player@Art_Pawn_Player");
+        GameObject totemPrefab = ResourceManager.LoadResSync<GameObject>("P_Totem@Art_Pawn_Totem");
         for (int i = 0; i < GObjs.Length; i++)
         {
-            GObjs[i] = new GameObject($"obj{i}");
-            GObjs[i].transform.SetParent(TotemObjRoot.transform);
-            //GObjs[i] = Instantiate(null, TotemObjRoot.transform);
+            GameObject unitPrefab = i==0 ? playerPrefab : totemPrefab;
+            GObjs[i] = Instantiate(unitPrefab, TotemObjRoot.transform, false);
         }
+        player = GObjs[0];
         UpdateGObjsTsf(state);
     }
 
@@ -61,10 +60,9 @@ public class InstanceTransformation : MonoBehaviour
     {
         for (int i = 0; i < GObjs.Length; i++)
         {
-            GObjs[i].transform.position = typeCastPos(worldState.totemsState[i].position);
+            GObjs[i].transform.position = typeCastPos(worldState.unitStates[i].position);
         }
-
-        GObjs[0].transform.position = typeCastPos(worldState.playerState.position);
+        player.transform.position = GObjs[0].transform.position;
     }
 
     private static Vector3 typeCastPos(Vec3 p2)

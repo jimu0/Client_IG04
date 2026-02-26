@@ -19,6 +19,10 @@ public partial class Tables
     public StoryTable StoryTable {get; }
     public MapDataTable MapDataTable {get; }
     public GunTable GunTable {get; }
+    /// <summary>
+    /// 定义所有单位元素的数据表
+    /// </summary>
+    public UnitDataTable UnitDataTable {get; }
 
     public Tables(System.Func<string, ByteBuf> loader)
     {
@@ -28,6 +32,7 @@ public partial class Tables
         StoryTable = new StoryTable(loader("storytable"));
         MapDataTable = new MapDataTable(loader("mapdatatable"));
         GunTable = new GunTable(loader("guntable"));
+        UnitDataTable = new UnitDataTable(loader("unitdatatable"));
         ResolveRef();
     }
     
@@ -39,6 +44,7 @@ public partial class Tables
         StoryTable.ResolveRef(this);
         MapDataTable.ResolveRef(this);
         GunTable.ResolveRef(this);
+        UnitDataTable.ResolveRef(this);
     }
 }
 

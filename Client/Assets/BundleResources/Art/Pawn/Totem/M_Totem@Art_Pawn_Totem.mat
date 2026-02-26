@@ -7,15 +7,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: M_TileGrid@Art_Pawn_Grid
+  m_Name: M_Totem@Art_Pawn_Totem
   m_Shader: {fileID: 10755, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _EMISSION
-  m_LightmapFlags: 2
-  m_EnableInstancingVariants: 1
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -96,7 +95,6 @@ Material:
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
-    - _Gloss: 20
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -115,11 +113,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 0.08027767, g: 0.091995955, b: 0.09433961, a: 1}
-    - _Diffuse: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-    - _EmissionColor: {r: 0.690566, g: 0.5924329, b: 0, a: 1}
+    - _Color: {r: 0.86415094, g: 0.6615909, b: 0.21359201, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _Specular: {r: 0.28731248, g: 1, b: 0.1716981, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6007824512063790494
 MonoBehaviour:
