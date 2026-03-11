@@ -13,7 +13,7 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 using TouchPhase = UnityEngine.InputSystem.TouchPhase;
 using UnityEngine.InputSystem.EnhancedTouch;
 using UnityEngine.UI;
-using IGC.Engine;
+using Mycelia;
 
 //[DefaultExecutionOrder(-1)]
 public class TouchInputManager : Singleton<TouchInputManager>

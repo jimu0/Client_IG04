@@ -1,8 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using IGC.Engine;
-using IGC.Engine.Astrophysics;
+using Mycelia;
 using UnityEngine;
 
 public class AstrophysicalSim : MonoBehaviour

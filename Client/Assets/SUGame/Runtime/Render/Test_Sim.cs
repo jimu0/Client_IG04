@@ -1,7 +1,6 @@
 
-using System.Security.AccessControl;
+using Mycelia;
 using UnityEngine;
-using IGCEngine;
 
 public class Test_Sim : MonoBehaviour
 {
@@ -24,7 +23,7 @@ public class Test_Sim : MonoBehaviour
         //Debug.Log($"血液：{Igc.GetWorldState.tick}");
         //Debug.Log($"TestTxt:{Igc.GetWorldState.debugText}"); 
 
-        Debug.Log($"TestPlayer{Igc.GetWorldState.unitStates[0].position}");
+        Debug.Log($"TestPlayer{MC.GetWorldState.unitStates[0].position}");
 
     }
 

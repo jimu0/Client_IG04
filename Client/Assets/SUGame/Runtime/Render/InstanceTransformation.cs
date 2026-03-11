@@ -1,16 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using IGC.Engine;
-using IGC.Game;
-using IGCEngine;
+using Mycelia;
+using SUEngine;
 using UnityEngine;
 
 public class InstanceTransformation : MonoBehaviour
 {
     private GameObject player;
     private GameObject tileGrid;
-    private static WorldState state = Igc.GetWorldState;
+    private static WorldState state;
     private static int GObjsLength = 81;
     private GameObject[] GObjs = new GameObject[GObjsLength];
     private readonly List<GameObject> newGObjs;
@@ -23,11 +22,12 @@ public class InstanceTransformation : MonoBehaviour
     private Vector3 pos;
     void Start()
     {
-        state = Igc.GetWorldState;
-        StartGObjs();
-        tileGrid = ResourceManager.LoadResSync<GameObject>("P_TileGrid@Art_Pawn_Grid");
-        
-        StartCreateWorldTiles();
+        // MC.InitTables(new LubanConfigService());
+        // state = MC.GetWorldState;
+        // StartGObjs();
+        // tileGrid = ResourceManager.LoadResSync<GameObject>("P_TileGrid@Art_Pawn_Grid");
+        //
+        // StartCreateWorldTiles();
     }
 
     private void OnEnable()
@@ -37,8 +37,8 @@ public class InstanceTransformation : MonoBehaviour
 
     void Update()
     {
-        state = Igc.GetWorldState;
-        UpdateGObjsTsf(state);
+        // state = MC.GetWorldState;
+        // UpdateGObjsTsf(state);
     }
 
 

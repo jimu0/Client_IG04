@@ -1,8 +1,7 @@
 using System;
-using System.Collections;
+using Mycelia;
 using System.Collections.Generic;
-using IGC.Engine;
-using IGC.Engine.Astrophysics;
+
 
 
 public static class AstrophysicalSys

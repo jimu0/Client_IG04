@@ -1,20 +1,22 @@
 //这是一个Luban向CoreSim提供的数据解析服务，规范上Unity侧不直接读取Luban配置
 
-using IGC.Engine;
-using IGC.Game;
-using Luban;
-using cfg;
+using System.Collections.Generic;
+using IGC.CardCore_IG04;
+using Mycelia;
+using IGC.CardCore_IG04.Luban;
+using IGC.CardCore_IG04.cfg;
+using CardConfig = Mycelia.CardConfig;
 
 namespace SUEngine
 {
     public class LubanConfigService : IConfigService
     {
         private const string GameConfDir = "Assets/Scripts/GameConfig/Bin";
-        private readonly Tables tables = new cfg.Tables(file => new ByteBuf(System.IO.File.ReadAllBytes($"{GameConfDir}/{file}.bytes")));
+        private readonly Tables tables = DeckFactory.tables;
 
         public UnitConfig GetUnit(int id)
         {
-            var row = tables.UnitDataTable.Get(id);
+            UnitDataCfg row = tables.UnitDataTable.Get(id);
             return new UnitConfig
             {
                 Id = row.Id,
@@ -24,7 +26,24 @@ namespace SUEngine
                 //TODO: 其他数据
             };
         }
-        
+
+        public CardConfig GetCard(int id)
+        {
+            CardDataCfg row = tables.CardDataTable.Get(id);
+            return new CardConfig
+            {
+                Id = row.Id,
+                name = row.Name,
+                desc = row.Desc,
+                className = row.ClassName,
+                combatPwr = row.CombatPwr,
+                defensivePwr = row.DefensivePwr,
+                level = row.Level
+                //TODO: 其他数据
+            };
+        }
+
+
         private Vec3 intToVec3(int value)
         {
             int zInt = value % 1000;

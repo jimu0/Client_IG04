@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using cfg;
 using UnityEngine;
 
 public class TestBulleRotation : MonoBehaviour

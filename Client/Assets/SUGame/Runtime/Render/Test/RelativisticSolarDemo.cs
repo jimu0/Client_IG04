@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using IGC.Engine;
-using IGC.Engine.Astrophysics;
+using Mycelia;
 
 public class RelativisticSolarDemo : MonoBehaviour
 {

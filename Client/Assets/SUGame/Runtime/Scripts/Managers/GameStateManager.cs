@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using IGC.Engine;
-using IGCEngine;
+using Mycelia;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -44,7 +43,7 @@ public class GameStateManager : Singleton<GameStateManager>
     private void Update()
     {
         Vec2 v = TouchInputManager.Instance.gameInput.moveValue;
-        Igc.Input.SetMove(v.x,v.y);
+        MC.Input.SetMove(v.x,v.y);
         //Debug.Log($"Test:{Igc.GetWorldState.playerState.position}");
     }
     

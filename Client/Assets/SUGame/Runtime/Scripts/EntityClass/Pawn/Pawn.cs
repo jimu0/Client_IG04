@@ -1,11 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using cfg;
-using Luban;
+using IGC.CardCore_IG04.cfg;
+using IGC.CardCore_IG04.Luban;
 using SUGame.Runtime.Scripts.InputControl;
 using UnityEngine;
 using File = System.IO.File;
-using IGC.Engine;
+using Mycelia;
 
 public class Pawn : Controller, IPlayerController
 {
@@ -120,7 +120,7 @@ public class Pawn : Controller, IPlayerController
     public void CfgTablesReadAllBytes()
     {
         //ByteBuf Func(string file) => new ByteBuf(File.ReadAllBytes($"{GameConfDir}/{file}.bytes"));
-        Tables tables = new cfg.Tables(file => new ByteBuf(File.ReadAllBytes($"{GameConfDir}/{file}.bytes")));
+        Tables tables = new Tables(file => new ByteBuf(File.ReadAllBytes($"{GameConfDir}/{file}.bytes")));
         //var tables = new cfg.Tables(file => JSON.Parse(File.ReadAllText($"{gameConfDir}/{file}.json")));
         //var tables = new cfg.Tables(file => return new ByteBuf(File.ReadAllBytes($"{gameConfDir}/A.bytes")));
         //Instantiate(tables);
