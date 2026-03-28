@@ -38,7 +38,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
     private GraphicRaycaster raycaster;
 
     public GameInput gameInput = new GameInput();
-    public RawInputSample s = new RawInputSample();
+    //public RawInputSample s = new RawInputSample();
     
     // 注册一个可交互对象
     // public static void RegisterInteractable(IPlayerController interactable)

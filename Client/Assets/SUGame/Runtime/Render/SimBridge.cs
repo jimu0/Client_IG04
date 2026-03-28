@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using IGC.CardCore_IG04;
+using IGC.RPGCore_IG04;
 using UnityEngine;
 using Mycelia;
 using SUEngine;
@@ -30,6 +31,7 @@ public class SimBridge : MonoBehaviour
         context.cardBoard.Deck.cardIds.AddRange(card1s);
         //cardBoard.Deck.cardIds.AddRange(card1s);
         listSys.Add(new CardGame(context));
+        listSys.Add(new RPGMode());
         MC.Simulate_Awake(listSys);
     }
     void Start()
@@ -45,9 +47,13 @@ public class SimBridge : MonoBehaviour
 
     void PlayerInput()
     {
-        // if ()
-        // {
-        //     
-        // }
+        if (true)
+        {
+            var moveInput=TouchInputManager.Instance.gameInput.moveValue;
+            var aimInput=TouchInputManager.Instance.gameInput.aimValue;
+            //Debug.Log("控制测试:" + moveInput.x + " " + moveInput.y);
+            MC.Input.SetMove(moveInput.x,moveInput.y);
+            MC.Input.SetAim(aimInput.x,aimInput.y);
+        }
     }
 }

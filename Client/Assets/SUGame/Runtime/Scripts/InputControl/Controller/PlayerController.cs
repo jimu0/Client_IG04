@@ -68,12 +68,6 @@ namespace SUGame.Runtime.Scripts.InputControl
             // 注册交互接口
             TouchInputManager.Instance.iPlayerController = this;
             TimerSystem.Init();
-            //fireRateTimerID = TimerManager.Register(0.1f, Fire, null, true, true, null);
-
-
-            // // 初始化屏幕中心点（动态适配分辨率变化）
-            // UpdateScreenCenter();
-            // StartCoroutine(UpdateScreenCenterRoutine()); // 每帧检查分辨率变化
 
             pawnState = 1;
             

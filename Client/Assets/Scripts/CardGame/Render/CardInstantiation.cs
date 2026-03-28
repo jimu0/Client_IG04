@@ -6,7 +6,7 @@ using Mycelia;
 using UnityEngine;
 using Input = Mycelia.Input;
 
-public class shilihua : MonoBehaviour
+public class CardInstantiation : MonoBehaviour
 {
     public SimBridge simBridg;
     //static BinaryReader reader = new (new FileStream("data.bin", FileMode.Open));
