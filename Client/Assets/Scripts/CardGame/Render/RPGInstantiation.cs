@@ -29,15 +29,19 @@ public class RPGInstantiation : MonoBehaviour
 
     void Update()
     {
-
+        var pawnState = MC.GetWorldState.pawnStates[0];
         Vector3 pos = Vector3.zero;
-        pos.x = MC.GetWorldState.pawnStates[0].tsf.postion.x;
-        pos.z = MC.GetWorldState.pawnStates[0].tsf.postion.y;
-        player.transform.SetPositionAndRotation(pos, Quaternion.identity);
+        pos.x = pawnState.tsf.postion.x;
+        pos.z = pawnState.tsf.postion.y;
+        Vector3 rot = Vector3.zero;
+        rot.x = pawnState.tsf.direction.x;
+        rot.z = pawnState.tsf.direction.y;
+        Quaternion rotQ = Quaternion.LookRotation(rot);
+        player.transform.SetPositionAndRotation(pos, rotQ);
         timer += Time.deltaTime;
 
         float distance = Vector3.Distance(oldPos, pos);
-        //Debug.Log("控制测试:" +distance);
+        Debug.Log("控制测试:" + MC.GetWorldState.debugText);
         speed = distance / timer;
         oldPos = pos;
 
@@ -52,7 +56,7 @@ public class RPGInstantiation : MonoBehaviour
 
         player_PawnController.speed = speed;
 
-        Debug.Log(MC.GetWorldState.pawnStates[0].tsf.rotation.x +" "+MC.GetWorldState.pawnStates[0].tsf.rotation.y);
+        //Debug.Log(MC.GetWorldState.pawnStates[0].tsf.rotation.x +" "+MC.GetWorldState.pawnStates[0].tsf.rotation.y);
 }
     
     

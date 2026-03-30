@@ -45,15 +45,21 @@ public class SimBridge : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Mycelia和游戏Core没有提供输入方法，这里由Unity的PlayerInputActions提供输出，由TouchInputManager管理
+    /// </summary>
     void PlayerInput()
     {
         if (true)
         {
             var moveInput=TouchInputManager.Instance.gameInput.moveValue;
             var aimInput=TouchInputManager.Instance.gameInput.aimValue;
-            //Debug.Log("控制测试:" + moveInput.x + " " + moveInput.y);
+            var aiming = TouchInputManager.Instance.gameInput.aiming;
+            //Debug.Log("控制测试:" + aimInput.x + " " + aimInput.y);
             MC.Input.SetMove(moveInput.x,moveInput.y);
             MC.Input.SetAim(aimInput.x,aimInput.y);
+            if(aiming) MC.Input.Press(ActionBits.Confirm);
+            else MC.Input.Release(ActionBits.Confirm);
         }
     }
 }
