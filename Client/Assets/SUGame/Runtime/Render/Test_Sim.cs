@@ -1,36 +1,32 @@
 
 using Mycelia;
 using UnityEngine;
+using Input = Mycelia.Input;
 
-public class Test_Sim : MonoBehaviour
+public class Test_Sim : MonoBehaviour,ISim,IRender
 {
     
-    public GameObject player;
-    public GameObject[] totems;
-    private void Start()
+    private void DebugLog(WorldState state)
     {
-        
+        Debug.Log($"StateTest : {state.debugText}");
     }
 
-    private void Update()
+
+    public SimPhase Phase => SimPhase.Step;
+    public void OnSimStart(in Input input, ref WorldState state)
     {
-        //DebugLog();
+        //state.debugText = $"hello world!";
+    }
+
+    public void OnSimStep(in Input input, ref WorldState state)
+    {
         
     }
     
-    private void DebugLog()
+    
+    public void OnRender(in WorldState state)
     {
-        //Debug.Log($"血液：{Igc.GetWorldState.tick}");
-        //Debug.Log($"TestTxt:{Igc.GetWorldState.debugText}"); 
-
-        Debug.Log($"TestPlayer{MC.GetWorldState.unitStates[0].position}");
-
+        //DebugLog(state);
     }
-
-    private void GetState()
-    {
-        //totems=
-    }
-
 }
 
