@@ -39,6 +39,8 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     public GameInput gameInput = new GameInput();
     //public RawInputSample s = new RawInputSample();
+
+    private Vec2 oldMove,oldAim;
     
     // 注册一个可交互对象
     // public static void RegisterInteractable(IPlayerController interactable)
@@ -98,35 +100,15 @@ public class TouchInputManager : Singleton<TouchInputManager>
     void HandleTouches()
     {
         
-        // TouchState fingerTouchState = touchControls.Touch.TouchInput.ReadValue<TouchState>();
-        // Vector2 fingerPos = fingerTouchState.position;
-        // float touchXNormalized = fingerPos.x / Screen.width; // 0~1
-        // if (touchXNormalized < screenSplitX)
-        // {
-        //     moveFingerId = fingerTouchState.touchId;
-        // }        
-        // else
-        // {
-        //     crosshairFingerId = fingerTouchState.touchId;
-        // }
-        // Debug.LogWarning($"moveFingerId:{moveFingerId} , crosshairFingerId:{crosshairFingerId}");
-
-
         foreach (Touch touch in Touch.activeTouches)
         {
             // 构造 PointerEventData（需传入 EventSystem）
             PointerEventData eventData = new PointerEventData(UnityEngine.EventSystems.EventSystem.current);
             eventData.position = touch.startScreenPosition;
             bool isHitButton = IsTouchOnButton(eventData);
-            // if (touch.phase == TouchPhase.Ended)
-            // {
-            //     
-            // }
 
             if (isHitButton) continue;//触摸到按钮的指头跳过
             
-            //Vector2 startScreenPos = touch.startScreenPosition;
-            //float touchXNormalized = touch.startScreenPosition.x / Screen.width; // 0~1
             if (touch.startScreenPosition.x / Screen.width < 0.5f)
             {
                 //if (moveFingerId != null) continue;
@@ -207,19 +189,19 @@ public class TouchInputManager : Singleton<TouchInputManager>
 
     void HandleMoveInput(Touch touch)
     {
-        float maxRadius = 10f; // 摇杆最大距离
+        //float maxRadius = 10f; // 摇杆最大距离
         Vector2 touchOffset = touch.screenPosition - touch.startScreenPosition;
         Vec2 offset;
         offset.x = touchOffset.x;
         offset.y = touchOffset.y;
         float distance = offset.Length(); // 计算偏移距离
-        if (distance > 0)
+        if (distance > 0.0001f)
         {
-            if (distance > maxRadius)
-            {
-                // 如果超出最大半径，则“拉回”到边界，保证方向不变，但长度合法
-                offset = offset.Normalized() * maxRadius;
-            }
+            // if (distance > maxRadius)
+            // {
+            //     // 如果超出最大半径，则“拉回”到边界，保证方向不变，但长度合法
+            //     offset = offset.Normalized() * maxRadius;
+            // }
             moveInput = offset.Normalized();
         }
         else
@@ -250,6 +232,7 @@ public class TouchInputManager : Singleton<TouchInputManager>
         // }
         if (gameInput == null) return;
         gameInput.moveValue = moveInput;
+        //gameInput.aimValue = gameInput.moveValue * 1.2f;
         gameInput.moving = crosshairFingerId != null;
         
     }
@@ -269,20 +252,13 @@ public class TouchInputManager : Singleton<TouchInputManager>
         else if(aimPos.x > Screen.width)aimPos.x = Screen.width;
         if (aimPos.y < 0)aimPos.y = 0;
         else if(aimPos.y > Screen.height)aimPos.y = Screen.height;
-
-        // if (iPlayerController != null)
-        // {
-        //     iPlayerController.SetAimValue(aimPos);
-        //     iPlayerController.OnAim(crosshairFingerId != null);
-        // }
-        // else
-        // {
-        //     //Debug.LogWarning($"iPlayerController为空！无法执行准心控制");
-        // }
+        
         
         if (gameInput == null) return;
-        gameInput.aimValue = aimPos;
         gameInput.aiming = crosshairFingerId != null;
+        gameInput.aimValue = aimPos - oldAim;
+        oldAim = aimPos;
+
     }
 
     void UpdateActions()

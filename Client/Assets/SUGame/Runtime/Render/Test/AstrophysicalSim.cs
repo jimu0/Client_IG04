@@ -48,8 +48,8 @@ public class AstrophysicalSim : MonoBehaviour
         //double fixedDt = 0.001f * speed;
         //speedAccumulator += fixedDt * speed;
         //Debug.Log(AstrophysicalSys.bodies[1].position);
-
-        if (!WTime.Tick()) return;
+        WTime.Sampling();
+        if (!WTime.ShouldStep(fixedDt)) return;
         int steps = WTime.Advance();
         for (int i = 0; i < steps; i++) AstrophysicalSys.Step(fixedDt*timeScale,G,k_contact,k_absorb);
         
