@@ -5,9 +5,8 @@ using IGC.CardCore_IG04.cfg;
 using IGC.RPGCore_IG04;
 using Mycelia;
 using UnityEngine;
-using Input = Mycelia.Input;
 
-public class RPGInstantiation : MonoBehaviour, IRender
+public class RPGInstantiation : Singleton<RPGInstantiation>, IRender
 {
     //public SimBridge simBridg;
 
@@ -42,13 +41,13 @@ public class RPGInstantiation : MonoBehaviour, IRender
 
     public void OnRender(in WorldState state)
     {
-        var pawnState = state.pawnStates[0];
-        Vector3 pos = new (pos.x = pawnState.tsf.postion.x,0,pos.x = pawnState.tsf.postion.y);
-        Vector3 rot = new (pawnState.tsf.direction.x, 0, pawnState.tsf.direction.y);
+        if (!player) return;
+        var roleStates = state.roleStates[0];
+        Vector3 pos = new (pos.x = roleStates.tsf.postion.x,0,pos.x = roleStates.tsf.postion.y);
+        Vector3 rot = new (roleStates.tsf.direction.x, 0, roleStates.tsf.direction.y);
         Quaternion rotQ = Quaternion.LookRotation(rot);
         player.transform.SetPositionAndRotation(pos,rotQ);
         playerCameraFollowPos.transform.SetPositionAndRotation(pos, playerCameraFollowPos.transform.rotation);
-            
         
         
         float distance = Vector3.Distance(oldPos, pos);
