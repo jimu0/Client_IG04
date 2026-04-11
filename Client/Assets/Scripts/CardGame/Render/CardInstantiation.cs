@@ -4,7 +4,6 @@ using System.IO;
 using IGC.CardCore_IG04;
 using Mycelia;
 using UnityEngine;
-using Input = Mycelia.Input;
 
 public class CardInstantiation : MonoBehaviour
 {

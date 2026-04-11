@@ -1,9 +1,8 @@
 
 using Mycelia;
 using UnityEngine;
-using Input = Mycelia.Input;
 
-public class Test_Sim : MonoBehaviour,ISim,IRender
+public class Test_Sim : Singleton<Test_Sim>, ISim, IRender
 {
     
     private void DebugLog(WorldState state)
@@ -13,12 +12,12 @@ public class Test_Sim : MonoBehaviour,ISim,IRender
 
 
     public SimPhase Phase => SimPhase.Step;
-    public void OnSimStart(in Input input, ref WorldState state)
+    public void OnSimStart(in CtrlInput input, ref WorldState state)
     {
         //state.debugText = $"hello world!";
     }
 
-    public void OnSimStep(in Input input, ref WorldState state)
+    public void OnSimStep(in CtrlInput input, ref WorldState state)
     {
         
     }

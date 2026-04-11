@@ -5,7 +5,7 @@ using Mycelia;
 using SUEngine;
 using UnityEngine;
 
-public class InstanceTransformation : MonoBehaviour
+public class InstanceTransformation : Singleton<InstanceTransformation>
 {
     private GameObject player;
     private GameObject tileGrid;
