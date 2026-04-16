@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using IGC.CardCore_IG04;
+using cfg;
 using IGC.RPGCore_IG04;
 using UnityEngine;
 using Mycelia;
 using SUEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class SimBridge : MonoBehaviour
 {
@@ -17,9 +17,11 @@ public class SimBridge : MonoBehaviour
     private void Awake()
     {
         DontDestroyOnLoad(this);
-        //MC.InitTables(new LubanConfigService());//初始化LuBan配置
+        MC.InitTables(new LubanConfigService());//初始化LuBan配置
+        //LubanConfigService
         
         MC.listSimSys.Add(new RPGMode());
+        MC.listSimSys.Add(new Mycelia.Physics2D());
         //收集Mycelia支持引擎ISim、IRender接口的实例
         foreach (var item in instanceSys)
         {
@@ -46,8 +48,11 @@ public class SimBridge : MonoBehaviour
     /// </summary>
     void PlayerInput()
     {
+        MC.Input.SetNumberOfPlayers(60);
         var moveValue = InputManager.Instance.moveValue;
-        MC.Input.SetMove(moveValue.x,moveValue.y);
+        MC.Input.SetMove(0,moveValue.x,moveValue.y);
+        MC.Input.SetJump(0, InputManager.Instance.Jump); //TODO:跳跃测试中，待完善
+        MC.Input.SetJumpHeld(0, InputManager.Instance.JumpHeld);
     }
     
     

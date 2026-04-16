@@ -1,22 +1,27 @@
 //这是一个Luban向CoreSim提供的数据解析服务，规范上Unity侧不直接读取Luban配置
 
-using System.Collections.Generic;
-using IGC.CardCore_IG04;
+using System.IO;
+using IGC.RPGCore_IG04;
 using Mycelia;
-using IGC.CardCore_IG04.Luban;
-using IGC.CardCore_IG04.cfg;
-using CardConfig = Mycelia.CardConfig;
+using Luban;
+using cfg;
 
 namespace SUEngine
 {
     public class LubanConfigService : IConfigService
     {
-        private const string GameConfDir = "Assets/Scripts/GameConfig/Bin";
-        private readonly Tables tables = DeckFactory.tables;
-
+        private const string gameConfDir = "Assets/StreamingAssets/GameConfig/Bin";
+        public LubanConfigService()
+        {
+            DeckFactory.tables = new Tables(file => new ByteBuf(File.ReadAllBytes($"{gameConfDir}/{file}.bytes")));
+        }
+        //Debug.LogWarning($"{DeckFactory.tables.UnitDataTable.Get(1000000001).Name}");//表数据读取示例
+        //Debug.LogWarning($"{DeckFactory.tables.UnitDataTable.DataMap[1000000001].Name}");//表数据读取示例
+        //Debug.LogWarning($"{MC.GetUnitConfig(1000000001).Name}");//表数据读取示例(dll封装)
         public UnitConfig GetUnit(int id)
         {
-            UnitDataCfg row = tables.UnitDataTable.Get(id);
+            if (DeckFactory.tables == null) return default;
+            UnitDataCfg row = DeckFactory.tables.UnitDataTable.Get(id);
             return new UnitConfig
             {
                 Id = row.Id,
@@ -29,7 +34,8 @@ namespace SUEngine
 
         public CardConfig GetCard(int id)
         {
-            CardDataCfg row = tables.CardDataTable.Get(id);
+            if (DeckFactory.tables == null) return default;
+            CardDataCfg row = DeckFactory.tables.CardDataTable.Get(id);
             return new CardConfig
             {
                 Id = row.Id,

@@ -1,16 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
-using IGC.CardCore_IG04.cfg;
-using IGC.CardCore_IG04.Luban;
+using cfg;
+using Luban;
 using SUGame.Runtime.Scripts.InputControl;
 using UnityEngine;
-using File = System.IO.File;
 using Mycelia;
 
 public class Pawn : Controller, IPlayerController
 {
     //临时
-    private const string GameConfDir = "Assets/Scripts/GameConfig/Bin";
+    private const string GameConfDir = "Assets/Raw/GameConfig/Bin";
 
 
     public void SetMoveValue(Vec2 v)
@@ -120,7 +119,7 @@ public class Pawn : Controller, IPlayerController
     public void CfgTablesReadAllBytes()
     {
         //ByteBuf Func(string file) => new ByteBuf(File.ReadAllBytes($"{GameConfDir}/{file}.bytes"));
-        Tables tables = new Tables(file => new ByteBuf(File.ReadAllBytes($"{GameConfDir}/{file}.bytes")));
+        Tables tables = new Tables(file => new ByteBuf(System.IO.File.ReadAllBytes($"{GameConfDir}/{file}.bytes")));
         //var tables = new cfg.Tables(file => JSON.Parse(File.ReadAllText($"{gameConfDir}/{file}.json")));
         //var tables = new cfg.Tables(file => return new ByteBuf(File.ReadAllBytes($"{gameConfDir}/A.bytes")));
         //Instantiate(tables);

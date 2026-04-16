@@ -133,6 +133,7 @@ public class GameStateManager : Singleton<GameStateManager>
     /// <param name="sceneName">场景名称</param>
     public void LoadScene(string sceneName)
     {
+        if (sceneName == string.Empty) return;
         SetGamePaused(true);// 暂停游戏
         // 卸载当前场景（如果有）并加载新场景
         SceneManager.LoadScene(sceneName);

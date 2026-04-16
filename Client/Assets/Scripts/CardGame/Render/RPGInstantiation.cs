@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using IGC.CardCore_IG04.cfg;
 using IGC.RPGCore_IG04;
 using Mycelia;
 using UnityEngine;

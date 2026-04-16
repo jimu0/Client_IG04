@@ -12,11 +12,14 @@ using YooAsset;
 /// </summary>
 public class SplashController : MonoBehaviour
 {
-
-    const string  SceneMainName = "SceneMain"; 
-    [Header("启动设置")] [SerializeField] private float minSplashTime = 2f; // 最小启动时间
+    
+    [Header("启动设置")] 
+    [SerializeField] private float minSplashTime = 2f; // 最小启动时间
+    [SerializeField] private string  SceneMainName = "SceneMain"; 
     [SerializeField] private bool skipResourceLoading = false; // 是否跳过资源加载（用于快速测试）
-    [Header("相机设置")] [SerializeField] private string cameraPrefabPath = "CameraRoot"; // 主相机预制体路径
+    
+    [Header("相机设置")] 
+    [SerializeField] private string cameraPrefabPath = "CameraRoot"; // 主相机预制体路径
     public GameObject cameraRoot;
 
     private bool isGlobalSceneLoaded = false; //全局Scene是否已加载
